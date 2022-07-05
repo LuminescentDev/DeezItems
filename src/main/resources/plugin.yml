@@ -1,0 +1,18 @@
+name: DeezItems
+version: '${project.version}'
+main: xyz.akiradev.deezitems.DeezItems
+api-version: 1.19
+authors: [ AkiraDev ]
+description: Custom item plugin since all the others are wacc
+softdepend: [ProtocolLib]
+commands:
+  deezitems:
+    usage: /deez
+
+permissions:
+  deezitems.give:
+    description: Allows the player to give items to other players
+    default: op
+  deezitems.reload:
+    description: Allows the player to reload the plugin
+    default: op
