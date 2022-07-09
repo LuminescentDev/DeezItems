@@ -6,20 +6,22 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
-import xyz.akiradev.deezitems.builders.DeezItem;
 import xyz.akiradev.deezitems.DeezItems;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class ItemUtils {
+
+    public static final Set<Material> UNBREAKABLE;
 
     /**
      * set the name of an itemstack
@@ -207,5 +209,18 @@ public class ItemUtils {
     public static DeezItem getDeezItem(ItemStack item){
         int isDeez = getIntFromItem(item, "itemID");
         return isDeez == 0 ? null : DeezItems.getDeezItemFromID(isDeez);
+    }
+
+    static {
+        UNBREAKABLE = EnumSet.of(
+                Material.END_PORTAL_FRAME,
+                Material.STRUCTURE_BLOCK,
+                Material.COMMAND_BLOCK,
+                Material.NETHER_PORTAL,
+                Material.END_GATEWAY,
+                Material.END_PORTAL,
+                Material.BEDROCK,
+                Material.BARRIER
+        );
     }
 }

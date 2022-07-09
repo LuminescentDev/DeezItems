@@ -1,5 +1,7 @@
 package xyz.akiradev.deezitems.utils;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +30,7 @@ public class ItemAbility {
 
     public List<String> setLore() {
         ArrayList lore = new ArrayList();
-        lore.add(TextUtils.colorize(ChatColor.GOLD + "Item Ability: " + this.abilityName + " " + ChatColor.DARK_BLUE + ChatColor.BOLD + this.abilityType.getName()));
+        lore.add(TextUtils.colorize(ChatColor.GOLD + "Item Ability: " + this.abilityName + " &b&l" + this.abilityType.getName()));
         lore.addAll(ItemUtils.convertStringToLore(this.abilityDescription, 40, ChatColor.GRAY));
         if(this.abilityCooldown > 0) {
             lore.add(TextUtils.colorize(ChatColor.GOLD + "Cooldown: " + this.abilityCooldown + " seconds"));
@@ -48,9 +50,34 @@ public class ItemAbility {
             return false;
         } else {
             if(sendMessage) {
-                player.sendMessage(TextUtils.colorize("&4&lYou must wait " + (cooldownTime - (int)(systime - cooldown)) + " seconds before using this ability again."));
+
+                if(ConfigManager.getConfig().getBoolean("useActionBar.cooldown")){
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(TextUtils.colorize("&c&lYou must wait " + (cooldownTime - (int)(systime - cooldown)) + " seconds before using this ability again.")));
+                }else {
+                    player.sendMessage(TextUtils.colorize("&c&lYou must wait " + (cooldownTime - (int) (systime - cooldown)) + " seconds before using this ability again."));
+                }
             }
             return true;
         }
     }
+
+    public enum AbilityTypes {
+        NONE(""),
+        LEFT_CLICK("Left click"),
+        RIGHT_CLICK("Right click"),
+        MIDDLE_CLICK("Middle click"),
+        BLOCK_BREAK("Break block"),
+        SHOOT("Shoot");
+
+        private String name;
+
+        AbilityTypes(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 }

@@ -1,46 +1,38 @@
 package xyz.akiradev.deezitems.defaultitems;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import xyz.akiradev.deezitems.utils.DeezItem;
-import xyz.akiradev.deezitems.utils.ItemAbility;
-import xyz.akiradev.deezitems.utils.ItemRarity;
-import xyz.akiradev.deezitems.utils.ItemUtils;
+import xyz.akiradev.deezitems.utils.*;
 
 import java.util.Arrays;
 
-public class DeezSword extends DeezItem {
-    public DeezSword() {
+public class FemboyStick extends DeezItem {
+
+    public FemboyStick() {
         super(
-                Material.DIAMOND_SWORD,
-                "Deez Sword",
-                ItemRarity.UNCOMMON,
-                1,
+                Material.STICK,
+                "Femboy Stick",
+                ItemRarity.UNKNOWN,
+                64,
                 null,
-                false,
-                Arrays.asList(new ItemAbility("Nuts", "Lmao my nuts itch", ItemAbility.AbilityTypes.LEFT_CLICK, 30))
+                true,
+                Arrays.asList(new ItemAbility("kiss", "Give someone a fat smooch", ItemAbility.AbilityTypes.LEFT_CLICK, 0))
         );
 
     }
 
     @Override
     public boolean leftClickAirAction(Player player, ItemStack item) {
-        // enforce the 30 second cooldown of the fireball ability
-        if (ItemAbility.enforceCooldown(player, "fireball", 30, item, true)) return false;
-
-        // shoot 3 fireballs
-        int amount = 3; // minimum 1
-        shootFireBall(player);
-        for (int counter = 1; counter < amount; counter++) {
-            ItemUtils.delayedTask(() -> shootFireBall(player), 10 * counter);
-        }
-        return true;
+        return shootHeart(player);
     }
 
     @Override
@@ -88,13 +80,26 @@ public class DeezSword extends DeezItem {
         return false;
     }
 
-    public void shootFireBall(Player player) {
-        Fireball thrown = player.launchProjectile(Fireball.class);
-        Vector v = player.getEyeLocation().getDirection().multiply(2.0);
-        thrown.setVelocity(v);
-        thrown.setYield(5);
+    public boolean shootHeart(Player player) {
 
-        thrown.setCustomName("DeezNut");
+        Entity target = ItemUtils.getTargetInRange(player, 50);
+        Player targetPlayer = null;
+        if(target instanceof Player){
+            targetPlayer = (Player) target;
+        }
+        if (targetPlayer == null) return false;
+        targetPlayer.sendTitle( "", TextUtils.colorize("&x&f&f&c&0&c&b" +player.getDisplayName() + "&x&f&f&c&0&c&b Gave you a fat smooch"), 20, 60, 10);
+        Location loc1 = player.getEyeLocation();
+        Location loc2 = target.getLocation();
+        Vector vector = ItemUtils.getDirectionBetweenLocations(loc1, loc2);
+        for(double i = 1; i <= loc1.distance(loc2); i += 0.5) {
+            vector.multiply(i);
+            loc1.add(vector);
+            player.getWorld().spawnParticle(Particle.HEART, loc1.getX(), loc1.getY(), loc1.getZ(), 1);
+            loc1.subtract(vector);
+            vector.normalize();
+        }
+        return true;
     }
 
 }

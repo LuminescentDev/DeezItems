@@ -3,18 +3,15 @@ package xyz.akiradev.deezitems.defaultitems;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import xyz.akiradev.deezitems.builders.DeezItem;
-import xyz.akiradev.deezitems.utils.AbilityTypes;
+import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.utils.ItemAbility;
 import xyz.akiradev.deezitems.utils.ItemRarity;
 import xyz.akiradev.deezitems.utils.ItemUtils;
@@ -30,7 +27,7 @@ public class LazerSword extends DeezItem {
                 1,
                 null,
                 false,
-                Arrays.asList(new ItemAbility("pew", "Shoots lazer when swung", AbilityTypes.LEFT_CLICK, 3))
+                Arrays.asList(new ItemAbility("pew", "Shoots lazer when swung", ItemAbility.AbilityTypes.LEFT_CLICK, 3))
         );
 
     }
@@ -38,10 +35,7 @@ public class LazerSword extends DeezItem {
     @Override
     public boolean leftClickAirAction(Player player, ItemStack item) {
         if (ItemAbility.enforceCooldown(player, "lazer", 3, item, true)) return false;
-        if(shootLazer(player)){
-
-        };
-
+        shootLazer(player);
         return true;
     }
 
@@ -86,7 +80,7 @@ public class LazerSword extends DeezItem {
     }
 
     @Override
-    public boolean breakBlockAction(Player player, PlayerInteractEvent event, Block block, ItemStack item) {
+    public boolean breakBlockAction(Player player, BlockBreakEvent event, Block block, ItemStack item) {
         return false;
     }
 
@@ -105,7 +99,7 @@ public class LazerSword extends DeezItem {
             vector.normalize();
         }
         if(target instanceof Damageable) {
-            ((Damageable) target).damage(1);
+            ((Damageable) target).damage(Math.round(Math.random() * 10));
         }
         return true;
     }

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import xyz.akiradev.deezitems.builders.DeezItem;
+import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.DeezItems;
 import xyz.akiradev.deezitems.utils.TextUtils;
 import xyz.akiradev.deezitems.utils.ConfigManager;

@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.akiradev.deezitems.builders.DeezItem;
+import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.utils.ItemUtils;
 
 public class EventPlayerUseDeezItem implements Listener {

@@ -1,16 +1,15 @@
 package xyz.akiradev.deezitems;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.akiradev.deezitems.builders.DeezItem;
+import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.commands.CommandDeez;
+import xyz.akiradev.deezitems.events.block.EventBlockBreak;
+import xyz.akiradev.deezitems.events.block.EventBlockPlace;
 import xyz.akiradev.deezitems.events.player.EventPlayerUseDeezItem;
 import xyz.akiradev.deezitems.utils.ConfigManager;
 import xyz.akiradev.deezitems.utils.RegisterDefaultItems;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public final class DeezItems extends JavaPlugin {
     private static Map<String, DeezItem> items = new HashMap();
@@ -18,7 +17,6 @@ public final class DeezItems extends JavaPlugin {
     public static String prefix = "&a[&bDeezItems&a] &8&l";
     private static DeezItems instance;
     private List<String> hooks = new ArrayList();
-    private ProtocolManager protocolManager;
 
     @Override
     public void onEnable() {
@@ -39,13 +37,14 @@ public final class DeezItems extends JavaPlugin {
         getServer().getLogger().info("Hooking into plugins...");
         if(getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
             getServer().getLogger().info("Detected ProtocolLib, enabling support.");
-            protocolManager = ProtocolLibrary.getProtocolManager();
             hooks.add("ProtocolLib");
         }
     }
 
     public void registerEvents(){
         this.getServer().getPluginManager().registerEvents(new EventPlayerUseDeezItem(), this);
+        this.getServer().getPluginManager().registerEvents(new EventBlockBreak(), this);
+        this.getServer().getPluginManager().registerEvents(new EventBlockPlace(), this);
     }
 
     public void registerCommands(){
@@ -78,9 +77,5 @@ public final class DeezItems extends JavaPlugin {
 
     public static DeezItems getInstance() {
         return instance;
-    }
-
-    public ProtocolManager getProtocolManager() {
-        return protocolManager;
     }
 }

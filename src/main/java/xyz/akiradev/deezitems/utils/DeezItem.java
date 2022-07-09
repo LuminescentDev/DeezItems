@@ -1,10 +1,11 @@
-package xyz.akiradev.deezitems.builders;
+package xyz.akiradev.deezitems.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.akiradev.deezitems.utils.ItemAbility;
@@ -161,7 +162,7 @@ public abstract class DeezItem {
      * @param item
      * @return
      */
-    public abstract boolean breakBlockAction(Player player, PlayerInteractEvent event, Block block, ItemStack item);
+    public abstract boolean breakBlockAction(Player player, BlockBreakEvent event, Block block, ItemStack item);
 
     public Material getMaterial() {
         return material;
