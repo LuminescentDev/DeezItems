@@ -10,6 +10,6 @@ public class RegisterDefaultItems {
         DeezItems.putItem("lazer_sword", new LazerSword());
         DeezItems.putItem("trench_pickaxe", new TrenchPick());
         DeezItems.putItem("femboy_stick", new FemboyStick());
-        DeezItems.putItem("kick_stick", new KickStick());
+        //DeezItems.putItem("kick_stick", new KickStick());
     }
 }
