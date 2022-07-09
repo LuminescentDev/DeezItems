@@ -66,8 +66,7 @@ public class ItemAbility {
         LEFT_CLICK("Left click"),
         RIGHT_CLICK("Right click"),
         MIDDLE_CLICK("Middle click"),
-        BLOCK_BREAK("Break block"),
-        SHOOT("Shoot");
+        BLOCK_BREAK("Break block");
 
         private String name;
 
