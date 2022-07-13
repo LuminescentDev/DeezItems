@@ -6,10 +6,9 @@ import xyz.akiradev.deezitems.defaultitems.*;
 public class RegisterDefaultItems {
 
     public static void registerDefaultItems() {
-        DeezItems.putItem("deez_sword", new DeezSword());
-        DeezItems.putItem("lazer_sword", new LazerSword());
-        DeezItems.putItem("trench_pickaxe", new TrenchPick());
-        DeezItems.putItem("femboy_stick", new FemboyStick());
-        //DeezItems.putItem("kick_stick", new KickStick());
+        DeezItems.registerItem("deez_sword", new DeezSword());
+        DeezItems.registerItem("lazer_sword", new LazerSword());
+        DeezItems.registerItem("trench_pickaxe", new TrenchPick());
+        DeezItems.registerItem("femboy_stick", new FemboyStick());
     }
 }
