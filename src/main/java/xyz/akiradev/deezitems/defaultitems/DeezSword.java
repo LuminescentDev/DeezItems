@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -23,7 +24,7 @@ public class DeezSword extends DeezItem {
                 ItemRarity.UNCOMMON,
                 1,
                 null,
-                false,
+                5,
                 Arrays.asList(new ItemAbility("Nuts", "Lmao my nuts itch", ItemAbility.AbilityTypes.LEFT_CLICK, 30))
         );
 
@@ -32,7 +33,7 @@ public class DeezSword extends DeezItem {
     @Override
     public boolean leftClickAirAction(Player player, ItemStack item) {
         // enforce the 30 second cooldown of the fireball ability
-        if (ItemAbility.enforceCooldown(player, "fireball", 30, item, true)) return false;
+        //if (ItemAbility.enforceCooldown(player, "fireball", 30, item, true)) return false;
 
         // shoot 3 fireballs
         int amount = 3; // minimum 1
@@ -85,6 +86,11 @@ public class DeezSword extends DeezItem {
 
     @Override
     public boolean breakBlockAction(Player player, BlockBreakEvent event, Block block, ItemStack item) {
+        return false;
+    }
+
+    @Override
+    public boolean projectileHitAction(Player player, ProjectileHitEvent event, ItemStack item) {
         return false;
     }
 

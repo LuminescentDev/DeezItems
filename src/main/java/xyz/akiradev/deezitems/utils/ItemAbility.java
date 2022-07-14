@@ -29,7 +29,7 @@ public class ItemAbility {
     }
 
     public List<String> setLore() {
-        ArrayList lore = new ArrayList();
+        ArrayList<String> lore = new ArrayList<>();
         lore.add(TextUtils.colorize(ChatColor.GOLD + "Item Ability: " + this.abilityName + " &b&l" + this.abilityType.getName()));
         lore.addAll(ItemUtils.convertStringToLore(this.abilityDescription, 40, ChatColor.GRAY));
         if(this.abilityCooldown > 0) {
@@ -50,7 +50,6 @@ public class ItemAbility {
             return false;
         } else {
             if(sendMessage) {
-
                 if(ConfigManager.getConfig().getBoolean("useActionBar.cooldown")){
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(TextUtils.colorize("&c&lYou must wait " + (cooldownTime - (int)(systime - cooldown)) + " seconds before using this ability again.")));
                 }else {
@@ -66,7 +65,8 @@ public class ItemAbility {
         LEFT_CLICK("Left click"),
         RIGHT_CLICK("Right click"),
         MIDDLE_CLICK("Middle click"),
-        BLOCK_BREAK("Break block");
+        BLOCK_BREAK("Break block"),
+        PROJECTILE_HIT("Projectile hit");
 
         private String name;
 

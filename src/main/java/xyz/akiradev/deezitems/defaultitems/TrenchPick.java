@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -25,7 +26,7 @@ public class TrenchPick extends DeezItem {
                 ItemRarity.LEGENDARY,
                 1,
                 null,
-                false,
+                -1,
                 Arrays.asList(new ItemAbility("Trench", "Break blocks", ItemAbility.AbilityTypes.BLOCK_BREAK, 30))
                 );
     }
@@ -132,6 +133,11 @@ public class TrenchPick extends DeezItem {
         return true;
     }
 
+    @Override
+    public boolean projectileHitAction(Player player, ProjectileHitEvent event, ItemStack item) {
+        return false;
+    }
+
     enum Direction
     {
         NORTH(0,0,-1),
@@ -140,10 +146,10 @@ public class TrenchPick extends DeezItem {
         WEST(-1,0,0),
         UP(0,1,0),
         DOWN(0,-1,0);
-        private Vector addition;
-        private boolean isX;
-        private boolean isY;
-        private boolean isZ;
+        private final Vector addition;
+        private final boolean isX;
+        private final boolean isY;
+        private final boolean isZ;
         Direction(int x,int y,int z)
         {
             this.addition=new Vector(x,y,z);
@@ -153,7 +159,7 @@ public class TrenchPick extends DeezItem {
         }
         public List<Location> getRadius(Block start, int level)
         {
-            List<Location> radius=new ArrayList<Location>();
+            List<Location> radius= new ArrayList<>();
             radius.add(start.getLocation().clone());
             Location location=start.getLocation();
             for(int i=0;i<level;i++)

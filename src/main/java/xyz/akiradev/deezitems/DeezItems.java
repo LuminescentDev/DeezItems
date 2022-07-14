@@ -1,6 +1,8 @@
 package xyz.akiradev.deezitems;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.akiradev.deezitems.events.other.EventProjectileHit;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.commands.CommandDeez;
 import xyz.akiradev.deezitems.events.block.EventBlockBreak;
@@ -16,7 +18,7 @@ public final class DeezItems extends JavaPlugin {
     private static Map<Integer, DeezItem> itemIDs = new HashMap();
     public static String prefix = "&a[&bDeezItems&a] &8&l";
     private static DeezItems instance;
-    private List<String> hooks = new ArrayList();
+    private final List<String> hooks = new ArrayList();
 
     @Override
     public void onEnable() {
@@ -26,6 +28,7 @@ public final class DeezItems extends JavaPlugin {
         RegisterDefaultItems.registerDefaultItems();
         ConfigManager.loadConfig();
         hookIntoPlugins();
+        enableMetrics();
     }
 
     @Override
@@ -35,16 +38,18 @@ public final class DeezItems extends JavaPlugin {
 
     public void hookIntoPlugins() {
         getServer().getLogger().info("Hooking into plugins...");
-        if(getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
-            getServer().getLogger().info("Detected ProtocolLib, enabling support.");
-            hooks.add("ProtocolLib");
-        }
     }
 
     public void registerEvents(){
         this.getServer().getPluginManager().registerEvents(new EventPlayerUseDeezItem(), this);
         this.getServer().getPluginManager().registerEvents(new EventBlockBreak(), this);
         this.getServer().getPluginManager().registerEvents(new EventBlockPlace(), this);
+        this.getServer().getPluginManager().registerEvents(new EventProjectileHit(), this);
+    }
+
+    public void enableMetrics(){
+        int pluginId = 15738;
+        Metrics metrics = new Metrics(this, pluginId);
     }
 
     public void registerCommands(){
@@ -52,9 +57,10 @@ public final class DeezItems extends JavaPlugin {
         this.getCommand("deezitems").setTabCompleter(new CommandDeez());
     }
 
-    public static void putItem(String name, DeezItem item){
+    public static void registerItem(String name, DeezItem item){
         items.put(name, item);
         itemIDs.put(item.getItemID(), item);
+        DeezItems.getInstance().getLogger().info("Registering item: " + name);
     }
 
     public static Collection<DeezItem> getItems() {
@@ -66,13 +72,11 @@ public final class DeezItems extends JavaPlugin {
     }
 
     public static DeezItem getDeezItem(String name) {
-        DeezItem deezItem = (DeezItem) items.get(name);
-        return deezItem == null ? (DeezItem)items.get("null") : deezItem;
+        return items.get(name);
     }
 
     public static DeezItem getDeezItemFromID(int id) {
-        DeezItem deezItem = (DeezItem) itemIDs.get(id);
-        return deezItem == null ? (DeezItem)itemIDs.get("null") : deezItem;
+        return itemIDs.get(id);
     }
 
     public static DeezItems getInstance() {

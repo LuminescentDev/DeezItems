@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -24,7 +25,7 @@ public class FemboyStick extends DeezItem {
                 ItemRarity.UNKNOWN,
                 64,
                 null,
-                true,
+                10,
                 Arrays.asList(new ItemAbility("kiss", "Give someone a fat smooch", ItemAbility.AbilityTypes.LEFT_CLICK, 0))
         );
 
@@ -77,6 +78,11 @@ public class FemboyStick extends DeezItem {
 
     @Override
     public boolean breakBlockAction(Player player, BlockBreakEvent event, Block block, ItemStack item) {
+        return false;
+    }
+
+    @Override
+    public boolean projectileHitAction(Player player, ProjectileHitEvent event, ItemStack item) {
         return false;
     }
 

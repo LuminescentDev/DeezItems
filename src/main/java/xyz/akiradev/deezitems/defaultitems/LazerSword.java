@@ -8,6 +8,7 @@ import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -26,7 +27,7 @@ public class LazerSword extends DeezItem {
                 ItemRarity.UNKNOWN,
                 1,
                 null,
-                false,
+                -1,
                 Arrays.asList(new ItemAbility("pew", "Shoots lazer when swung", ItemAbility.AbilityTypes.LEFT_CLICK, 3))
         );
 
@@ -81,6 +82,11 @@ public class LazerSword extends DeezItem {
 
     @Override
     public boolean breakBlockAction(Player player, BlockBreakEvent event, Block block, ItemStack item) {
+        return false;
+    }
+
+    @Override
+    public boolean projectileHitAction(Player player, ProjectileHitEvent event, ItemStack item) {
         return false;
     }
 
