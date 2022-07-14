@@ -47,19 +47,18 @@ public class ItemUtils {
 
     /**
      * set the lore of an itemstack
+     *
      * @param item - itemstack to be named
      * @param lore - lore to be set
      */
-    public static ItemStack setItemLore(ItemStack item, List<String> lore) {
+    public static void setItemLore(ItemStack item, List<String> lore) {
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);
         item.setItemMeta(meta);
-        return item;
     }
 
     /**
      * Give ItemStack enchant glint
-     * @param item
      */
     public static void setGlowing(ItemStack item){
         ItemMeta meta = item.getItemMeta();
@@ -69,7 +68,6 @@ public class ItemUtils {
 
     /**
      * repair an ItemStack if Damageable
-     * @param item
      */
     public static void repairItem(ItemStack item){
         ItemMeta meta = item.getItemMeta();
@@ -133,10 +131,8 @@ public class ItemUtils {
         } else {
             int seed = 0;
             char[] charArray = string.toCharArray();
-            int arrayLength = charArray.length;
 
-            for(int i = 0; i < arrayLength; ++i) {
-                char arraychar = charArray[i];
+            for (char arraychar : charArray) {
                 seed = 31 * seed + arraychar;
             }
 
@@ -157,7 +153,7 @@ public class ItemUtils {
                         lore.add(color + sb.toString());
                         sb = new StringBuilder();
                     }
-                    sb.append(word + " ");
+                    sb.append(word).append(" ");
                 }
                 lore.add(color + sb.toString());
             }else{
@@ -176,11 +172,7 @@ public class ItemUtils {
     }
 
     public static List<Entity> entitiesInRange(Player player, double range) {
-        List<Entity> entities = new ArrayList<>();
-        for (Entity entity : player.getNearbyEntities(range, range, range)) {
-            entities.add(entity);
-        }
-        return entities;
+        return new ArrayList<>(player.getNearbyEntities(range, range, range));
     }
 
     public static Entity getTargetInRange(Player player, double range) {
