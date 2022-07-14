@@ -12,7 +12,6 @@ import xyz.akiradev.deezitems.utils.TextUtils;
 import xyz.akiradev.deezitems.utils.ConfigManager;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CommandDeez implements CommandExecutor, TabCompleter {
@@ -50,6 +49,7 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
             }
         }catch (Exception e){
             TextUtils.warnPlayer(sender, "Something went wrong");
+            DeezItems.getInstance().getLogger().warning(e.getMessage());
         }
         return true;
     }
@@ -109,14 +109,11 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
 
     /**
      * Sends list of items to player
-     * @param sender
      */
     public void listItems(CommandSender sender) {
-        List<String> items = new ArrayList();
-        Iterator iterator = DeezItems.getItems().iterator();
+        ArrayList<String> items = new ArrayList<>();
 
-        while(iterator.hasNext()) {
-            DeezItem item = (DeezItem)iterator.next();
+        for (DeezItem item : DeezItems.getItems()) {
             String itemName = item.getRarity().getColor() + item.getName();
             items.add(itemName);
         }
@@ -125,10 +122,9 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
 
     /**
      * Sends plugin info to the player
-     * @param sender
      */
     public void pluginInfo(CommandSender sender) {
-        List<String> infoLines = new ArrayList();
+        List<String> infoLines = new ArrayList<>();
 
         infoLines.add("&8&l Author: " + DeezItems.getInstance().getDescription().getAuthors());
         infoLines.add("&8&l Version: " + DeezItems.getInstance().getDescription().getVersion());
@@ -141,10 +137,9 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
 
     /**
      * Sends help info to the player
-     * @param sender
      */
     public void helpInfo(CommandSender sender) {
-        List<String> infoLines = new ArrayList();
+        List<String> infoLines = new ArrayList<>();
 
         infoLines.add("&8&l /deezitems list - Lists all items");
         infoLines.add("&8&l /deezitems info - Shows plugin info");
