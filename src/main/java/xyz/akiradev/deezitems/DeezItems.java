@@ -49,7 +49,7 @@ public final class DeezItems extends JavaPlugin {
 
     public void enableMetrics(){
         int pluginId = 15738;
-        Metrics metrics = new Metrics(this, pluginId);
+        new Metrics(this, pluginId);
     }
 
     public void registerCommands(){
