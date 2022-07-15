@@ -22,7 +22,7 @@ public class FemboyStick extends DeezItem {
         super(
                 Material.STICK,
                 "Femboy Stick",
-                ItemRarity.UNKNOWN,
+                "Unknown",
                 64,
                 null,
                 10,
@@ -94,7 +94,7 @@ public class FemboyStick extends DeezItem {
             targetPlayer = (Player) target;
         }
         if (targetPlayer == null) return false;
-        targetPlayer.sendTitle( "", TextUtils.colorize("&x&f&f&c&0&c&b" +player.getDisplayName() + "&x&f&f&c&0&c&b Gave you a fat smooch"), 20, 60, 10);
+        targetPlayer.sendTitle( "", HexUtils.colorify("#ffc0cb" +player.getDisplayName() + "#ffc0cb Gave you a fat smooch"), 20, 60, 10);
         Location loc1 = player.getEyeLocation();
         Location loc2 = target.getLocation();
         Vector vector = ItemUtils.getDirectionBetweenLocations(loc1, loc2);

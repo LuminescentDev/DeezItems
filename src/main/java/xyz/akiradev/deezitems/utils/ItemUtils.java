@@ -30,7 +30,7 @@ public class ItemUtils {
      */
     public static ItemStack nameItem(ItemStack item, String name) {
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(TextUtils.colorize(name));
+        meta.setDisplayName(HexUtils.colorify(name));
         item.setItemMeta(meta);
         return item;
     }

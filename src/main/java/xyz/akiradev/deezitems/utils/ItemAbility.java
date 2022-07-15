@@ -30,10 +30,10 @@ public class ItemAbility {
 
     public List<String> setLore() {
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(TextUtils.colorize(ChatColor.GOLD + "Item Ability: " + this.abilityName + " &b&l" + this.abilityType.getName()));
+        lore.add(HexUtils.colorify(ChatColor.GOLD + "Item Ability: " + this.abilityName + " &b&l" + this.abilityType.getName()));
         lore.addAll(ItemUtils.convertStringToLore(this.abilityDescription, 40, ChatColor.GRAY));
         if(this.abilityCooldown > 0) {
-            lore.add(TextUtils.colorize(ChatColor.GOLD + "Cooldown: " + this.abilityCooldown + " seconds"));
+            lore.add(HexUtils.colorify(ChatColor.GOLD + "Cooldown: " + this.abilityCooldown + " seconds"));
         }
 
         return lore;
@@ -51,9 +51,9 @@ public class ItemAbility {
         } else {
             if(sendMessage) {
                 if(ConfigManager.getConfig().getBoolean("useActionBar.cooldown")){
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(TextUtils.colorize("&c&lYou must wait " + (cooldownTime - (int)(systime - cooldown)) + " seconds before using this ability again.")));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(HexUtils.colorify("&c&lYou must wait " + (cooldownTime - (int)(systime - cooldown)) + " seconds before using this ability again.")));
                 }else {
-                    player.sendMessage(TextUtils.colorize("&c&lYou must wait " + (cooldownTime - (int) (systime - cooldown)) + " seconds before using this ability again."));
+                    player.sendMessage(HexUtils.colorify("&c&lYou must wait " + (cooldownTime - (int) (systime - cooldown)) + " seconds before using this ability again."));
                 }
             }
             return true;

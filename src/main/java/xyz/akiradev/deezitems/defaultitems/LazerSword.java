@@ -24,7 +24,7 @@ public class LazerSword extends DeezItem {
         super(
                 Material.DIAMOND_SWORD,
                 "Lazer Sword",
-                ItemRarity.UNKNOWN,
+                "Unknown",
                 1,
                 null,
                 -1,

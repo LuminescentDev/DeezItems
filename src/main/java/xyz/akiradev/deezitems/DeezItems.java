@@ -2,6 +2,10 @@ package xyz.akiradev.deezitems;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.akiradev.deezitems.defaultitems.DeezSword;
+import xyz.akiradev.deezitems.defaultitems.FemboyStick;
+import xyz.akiradev.deezitems.defaultitems.LazerSword;
+import xyz.akiradev.deezitems.defaultitems.TrenchPick;
 import xyz.akiradev.deezitems.events.other.EventProjectileHit;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.commands.CommandDeez;
@@ -9,7 +13,7 @@ import xyz.akiradev.deezitems.events.block.EventBlockBreak;
 import xyz.akiradev.deezitems.events.block.EventBlockPlace;
 import xyz.akiradev.deezitems.events.player.EventPlayerUseDeezItem;
 import xyz.akiradev.deezitems.utils.ConfigManager;
-import xyz.akiradev.deezitems.utils.RegisterDefaultItems;
+import xyz.akiradev.deezitems.utils.ItemRarity;
 
 import java.util.*;
 
@@ -25,10 +29,11 @@ public final class DeezItems extends JavaPlugin {
         instance = this;
         registerEvents();
         registerCommands();
-        RegisterDefaultItems.registerDefaultItems();
+        registerDefaultItems();
         ConfigManager.loadConfig();
         hookIntoPlugins();
         enableMetrics();
+        ItemRarity.loadRaritys();
     }
 
     @Override
@@ -50,6 +55,13 @@ public final class DeezItems extends JavaPlugin {
     public void enableMetrics(){
         int pluginId = 15738;
         new Metrics(this, pluginId);
+    }
+
+    public static void registerDefaultItems() {
+        DeezItems.registerItem("deez_sword", new DeezSword());
+        DeezItems.registerItem("lazer_sword", new LazerSword());
+        DeezItems.registerItem("trench_pickaxe", new TrenchPick());
+        DeezItems.registerItem("femboy_stick", new FemboyStick());
     }
 
     public void registerCommands(){

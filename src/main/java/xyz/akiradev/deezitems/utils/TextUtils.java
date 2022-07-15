@@ -1,49 +1,13 @@
 package xyz.akiradev.deezitems.utils;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.akiradev.deezitems.DeezItems;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TextUtils {
-
-    /**
-     * convert a string with & to a valid ChatColor encoded string
-     * @param text - text to be formatted
-     */
-    public static String colorize(String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
-    }
-
-    /**
-     * conver a list of string with & encoded colors to a ChatColor encoded list
-     * @param textList - list of strings to be formatted
-     */
-    public static List<String> colorize(List<String> textList) {
-        for (int i = 0; i < textList.size(); i++) {
-            textList.set(i, colorize(textList.get(i)));
-        }
-        return textList;
-    }
-
-    /**
-     * convert an array of strings with & encoded colors to a ChatColor encoded array
-     * @param textArray - array of strings to be formatted
-     */
-    public static String[] colorize(String...textArray) {
-        for (int i = 0; i < textArray.length; i++) {
-            textArray[i] = colorize(textArray[i]);
-        }
-        return textArray;
-    }
-
-    public static void sendMessage(CommandSender sender, String message) {
-        sender.sendMessage(colorize(DeezItems.prefix + message));
-    }
 
     public static void warnPlayer(CommandSender sender, List<String> messages) {
         if(sender instanceof Player) {
@@ -52,7 +16,7 @@ public class TextUtils {
         }
 
         for(String message : messages) {
-            sendMessage(sender, message);
+            HexUtils.sendMessage(sender, message);
         }
 
     }
@@ -62,10 +26,10 @@ public class TextUtils {
     }
 
     public static void multilineReply(CommandSender sender, String header, String footer, List<String> lines) {
-        sender.sendMessage(colorize(header));
+        sender.sendMessage(HexUtils.colorify(header));
         for(String line : lines) {
-            sendMessage(sender, colorize(line));
+            HexUtils.sendMessage(sender, HexUtils.colorify(line));
         }
-        sender.sendMessage(colorize(footer));
+        sender.sendMessage(HexUtils.colorify(footer));
     }
 }

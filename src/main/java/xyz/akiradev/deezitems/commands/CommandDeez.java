@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.DeezItems;
+import xyz.akiradev.deezitems.utils.HexUtils;
 import xyz.akiradev.deezitems.utils.TextUtils;
 import xyz.akiradev.deezitems.utils.ConfigManager;
 
@@ -38,7 +39,7 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
                 case "reload":
                     if(sender.hasPermission("deezitems.reload")){
                         ConfigManager.reloadConfig();
-                        TextUtils.sendMessage(sender, "Config reloaded");
+                        HexUtils.sendMessage(sender, "Config reloaded");
                     } else {
                         TextUtils.warnPlayer(sender, "You don't have permission to use this command.");
                     }
@@ -56,7 +57,6 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        String cmd = String.join(" ", args);
         List<String> completions = new ArrayList<>();
 
         /* suggest commands */
@@ -100,7 +100,7 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
             ItemStack item = DeezItems.getDeezItem(args[1]).Generate(amount);
             if(item != null) {
                 player.getInventory().addItem(item);
-                TextUtils.sendMessage(sender, "Given " +  DeezItems.getDeezItem(args[1]).getName());
+                HexUtils.sendMessage(sender, "Given " +  DeezItems.getDeezItem(args[1]).getName());
             }else{
                 TextUtils.warnPlayer(sender, "Item not found");
             }
@@ -114,7 +114,7 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
         ArrayList<String> items = new ArrayList<>();
 
         for (DeezItem item : DeezItems.getItems()) {
-            String itemName = item.getRarity().getColor() + item.getName();
+            String itemName = item.getRarityColor() + item.getName();
             items.add(itemName);
         }
         TextUtils.multilineReply(sender, "&8&l---------Current Items---------", "&8&l-------------------------------", items);
@@ -146,7 +146,7 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
         infoLines.add("&8&l /deezitems help - Shows this help info");
         if (sender.hasPermission("deezitems.admin")) {
             infoLines.add("&8&l /deezitems reload - Reloads the plugin");
-            infoLines.add("&8&l /deezitems give <player> <item> - Gives a player an item");
+            infoLines.add("&8&l /deezitems give <item> - Gives a player an item");
         }
 
         TextUtils.multilineReply(sender, "&8&l---------DeezItems Help---------", "&8&l-------------------------------", infoLines);

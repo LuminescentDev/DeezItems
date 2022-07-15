@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class DeezItem {
     private Material material;
     private String name;
-    private ItemRarity rarity;
+    private String rarity;
     private int amount;
     private List<String> lore;
     private int itemID;
@@ -23,19 +23,19 @@ public abstract class DeezItem {
     private List<ItemAbility> abilities;
 
 
-    public DeezItem(Material material ,String name, ItemRarity rarity, int amount, List<String> lore, int uses, List<ItemAbility> abilities) {
+    public DeezItem(Material material ,String name, String rarity, int amount, List<String> lore, int uses, List<ItemAbility> abilities) {
         this.material = material;
         this.name = name;
         this.rarity = rarity;
         this.amount = amount;
         this.lore = lore;
-        this.itemID = ItemUtils.stringToSeed(material.name() + name + rarity.name());
+        this.itemID = ItemUtils.stringToSeed(material.name() + name + rarity);
         this.uses = uses;
         this.abilities = abilities;
     }
 
     public ItemStack Generate(int Amount) {
-        ItemStack item = ItemUtils.nameItem(this.material, this.rarity.getColor() + this.name);
+        ItemStack item = ItemUtils.nameItem(this.material, ItemRarity.getColor(rarity) + this.name);
         ItemUtils.storeIntInItem(item, itemID, "itemID");
         ItemUtils.storeIntInItem(item, uses, "uses");
         ItemUtils.setItemLore(item, getLore(item));
@@ -46,7 +46,7 @@ public abstract class DeezItem {
     private List<String> getLore(ItemStack item){
         ArrayList<String> list = new ArrayList<>();
         int uses = ItemUtils.getIntFromItem(item, "uses");
-        if(rarity.equals(ItemRarity.UNFINISHED)){
+        if(this.rarity.equalsIgnoreCase("unfinished")){
             list.add("Item Unfinished");
             list.add("Likely to be broken");
         }
@@ -58,9 +58,9 @@ public abstract class DeezItem {
             list.add("");
         }
         if(uses >= 1){
-            list.add(TextUtils.colorize("&b&l(&a&lUses: " + uses + "&b&l)"));
+            list.add(HexUtils.colorify("&b&l(&a&lUses: " + uses + "&b&l)"));
         }
-        list.add(TextUtils.colorize(rarity.getColor() + "&l" + rarity));
+        list.add(HexUtils.colorify(ItemRarity.getColor(this.rarity) + "&l" + this.rarity));
         return list;
     }
 
@@ -139,8 +139,11 @@ public abstract class DeezItem {
         return name;
     }
 
-    public ItemRarity getRarity() {
+    public String getRarityName() {
         return rarity;
+    }
+    public String getRarityColor() {
+        return ItemRarity.getColor(rarity);
     }
 
     public int getItemID() {

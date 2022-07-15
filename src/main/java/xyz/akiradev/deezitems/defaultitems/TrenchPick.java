@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.utils.ItemAbility;
-import xyz.akiradev.deezitems.utils.ItemRarity;
 import xyz.akiradev.deezitems.utils.ItemUtils;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class TrenchPick extends DeezItem {
         super(
                 Material.DIAMOND_PICKAXE,
                 "Trench Pickaxe",
-                ItemRarity.LEGENDARY,
+                "Legendary",
                 1,
                 null,
                 -1,

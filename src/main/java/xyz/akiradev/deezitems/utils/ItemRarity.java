@@ -2,23 +2,27 @@ package xyz.akiradev.deezitems.utils;
 
 import org.bukkit.ChatColor;
 
-public enum ItemRarity {
-    COMMON(ChatColor.WHITE),
-    UNCOMMON(ChatColor.GREEN),
-    RARE(ChatColor.AQUA),
-    EPIC(ChatColor.LIGHT_PURPLE),
-    LEGENDARY(ChatColor.GOLD),
-    UNKNOWN(ChatColor.DARK_GRAY),
-    UNFINISHED(ChatColor.DARK_RED);
+import java.util.HashMap;
+import java.util.Map;
 
-    private ChatColor color;
+public class ItemRarity {
 
-    ItemRarity(ChatColor color) {
-        this.color = color;
+    public static Map<String, String> Raritys = new HashMap();
+    public String name;
+    public String color;
+
+    public static void loadRaritys() {
+        Raritys.put("Common", "#FFFFFF");
+        Raritys.put("Uncommon", "#009b02");
+        Raritys.put("Rare", "#00b0ff");
+        Raritys.put("Epic", "#9b00ff");
+        Raritys.put("Legendary", "#ffbe39");
+        Raritys.put("Unknown", "#393939");
+        Raritys.put("Unfinished", "#ff0000");
     }
 
-    public ChatColor getColor() {
-        return color;
+    public static String getColor(String rarity) {
+        return Raritys.get(rarity);
     }
 
 
