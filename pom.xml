@@ -6,7 +6,7 @@
 
     <groupId>xyz.akiradev</groupId>
     <artifactId>DeezItems</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>DeezItems</name>
@@ -47,12 +47,8 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>de.leonhard.storage</pattern>
-                                    <shadedPattern>xyz.akiradev.storage</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.bstats</pattern>
-                                    <shadedPattern>xyz.akiradev</shadedPattern>
+                                    <pattern>xyz.akiradev.pluginutils</pattern>
+                                    <shadedPattern>xyz.akiradev.pUtils</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -78,8 +74,8 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>akiradev-repo</id>
+            <url>https://repo.akiradev.xyz/repository/public/</url>
         </repository>
     </repositories>
 
@@ -91,15 +87,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.simplix-softworks</groupId>
-            <artifactId>SimplixStorage</artifactId>
-            <version>3.2.5</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
+            <groupId>xyz.akiradev</groupId>
+            <artifactId>PluginUtils</artifactId>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -8,6 +8,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import xyz.akiradev.deezitems.DeezItems;
+import xyz.akiradev.deezitems.manager.LocaleManager;
+import xyz.akiradev.pluginutils.utils.HexUtils;
+import xyz.akiradev.pluginutils.utils.StringPlaceholders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +25,11 @@ public abstract class DeezItem {
     private int itemID;
     private int uses;
     private List<ItemAbility> abilities;
+    private int customModelID;
 
 
-    public DeezItem(Material material ,String name, String rarity, int amount, List<String> lore, int uses, List<ItemAbility> abilities) {
+
+    public DeezItem(Material material ,String name, String rarity, int amount, List<String> lore, int uses, List<ItemAbility> abilities, int customModelID) {
         this.material = material;
         this.name = name;
         this.rarity = rarity;
@@ -32,6 +38,7 @@ public abstract class DeezItem {
         this.itemID = ItemUtils.stringToSeed(material.name() + name + rarity);
         this.uses = uses;
         this.abilities = abilities;
+        this.customModelID = customModelID;
     }
 
     public ItemStack Generate(int Amount) {
@@ -39,11 +46,16 @@ public abstract class DeezItem {
         ItemUtils.storeIntInItem(item, itemID, "itemID");
         ItemUtils.storeIntInItem(item, uses, "uses");
         ItemUtils.setItemLore(item, getLore(item));
+        if(customModelID != -1) {
+            ItemUtils.setCustomModelID(item, customModelID);
+        }
+
         item.setAmount(Amount);
         return item;
     }
 
     private List<String> getLore(ItemStack item){
+        LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
         ArrayList<String> list = new ArrayList<>();
         int uses = ItemUtils.getIntFromItem(item, "uses");
         if(this.rarity.equalsIgnoreCase("unfinished")){
@@ -58,7 +70,7 @@ public abstract class DeezItem {
             list.add("");
         }
         if(uses >= 1){
-            list.add(HexUtils.colorify("&b&l(&a&lUses: " + uses + "&b&l)"));
+            list.add(localeManager.getLocaleMessage("item-uses-remaining", StringPlaceholders.single("uses", uses)));
         }
         list.add(HexUtils.colorify(ItemRarity.getColor(this.rarity) + "&l" + this.rarity));
         return list;

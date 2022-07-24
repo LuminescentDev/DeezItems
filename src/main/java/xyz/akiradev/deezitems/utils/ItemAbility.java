@@ -5,16 +5,22 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import xyz.akiradev.deezitems.DeezItems;
+import xyz.akiradev.deezitems.manager.ConfigurationManager.Setting;
+import xyz.akiradev.deezitems.manager.LocaleManager;
+import xyz.akiradev.pluginutils.utils.HexUtils;
+import xyz.akiradev.pluginutils.utils.StringPlaceholders;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAbility {
-    private String abilityName;
-    private String abilityDescription;
-    private AbilityTypes abilityType;
+    private final String abilityName;
+    private final String abilityDescription;
+    private final AbilityTypes abilityType;
     private int abilityCooldown;
 
+    private static LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
     public ItemAbility(String abilityName, String abilityDescription, AbilityTypes abilityType, int abilityCooldown) {
         this.abilityName = abilityName;
         this.abilityDescription = abilityDescription;
@@ -40,6 +46,7 @@ public class ItemAbility {
     }
 
     public static boolean enforceCooldown(Player player, String cooldownName, double cooldown, ItemStack item, boolean sendMessage){
+        LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
         double systime = (double)System.currentTimeMillis() / 1000.0;
         int cooldownTime = ItemUtils.getIntFromItem(item, cooldownName);
         if(cooldownTime <= 0){
@@ -49,26 +56,23 @@ public class ItemAbility {
             ItemUtils.storeIntInItem(item, (int)systime, cooldownName);
             return false;
         } else {
-            if(sendMessage) {
-                if(ConfigManager.getConfig().getBoolean("useActionBar.cooldown")){
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(HexUtils.colorify("&c&lYou must wait " + (cooldownTime - (int)(systime - cooldown)) + " seconds before using this ability again.")));
+            if(Setting.USE_ACTIONBAR.getBoolean()){
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(HexUtils.colorify(localeManager.getLocaleMessage("cooldown-message", StringPlaceholders.single("time", (cooldownTime - (int)(systime - cooldown)))))));
                 }else {
-                    player.sendMessage(HexUtils.colorify("&c&lYou must wait " + (cooldownTime - (int) (systime - cooldown)) + " seconds before using this ability again."));
+                    localeManager.sendMessage(player, "cooldown-message", StringPlaceholders.single("time", (cooldownTime - (int)(systime - cooldown))));
                 }
             }
             return true;
         }
-    }
-
     public enum AbilityTypes {
         NONE(""),
-        LEFT_CLICK("Left click"),
-        RIGHT_CLICK("Right click"),
-        MIDDLE_CLICK("Middle click"),
-        BLOCK_BREAK("Break block"),
-        PROJECTILE_HIT("Projectile hit");
+        LEFT_CLICK(localeManager.getLocaleMessage("left-click")),
+        RIGHT_CLICK(localeManager.getLocaleMessage("right-click")),
+        MIDDLE_CLICK(localeManager.getLocaleMessage("middle-click")),
+        BLOCK_BREAK(localeManager.getLocaleMessage("block-break")),
+        PROJECTILE_HIT(localeManager.getLocaleMessage("projectile-hit"));
 
-        private String name;
+        private final String name;
 
         AbilityTypes(String name) {
             this.name = name;

@@ -28,7 +28,8 @@ public class LazerSword extends DeezItem {
                 1,
                 null,
                 -1,
-                Arrays.asList(new ItemAbility("pew", "Shoots lazer when swung", ItemAbility.AbilityTypes.LEFT_CLICK, 3))
+                Arrays.asList(new ItemAbility("pew", "Shoots lazer when swung", ItemAbility.AbilityTypes.LEFT_CLICK, 3)),
+                -1
         );
 
     }

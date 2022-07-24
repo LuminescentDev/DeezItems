@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.utils.ItemAbility;
-import xyz.akiradev.deezitems.utils.ItemRarity;
 import xyz.akiradev.deezitems.utils.ItemUtils;
 
 import java.util.Arrays;
@@ -25,7 +24,8 @@ public class DeezSword extends DeezItem {
                 1,
                 null,
                 5,
-                Arrays.asList(new ItemAbility("Nuts", "Lmao my nuts itch", ItemAbility.AbilityTypes.LEFT_CLICK, 30))
+                Arrays.asList(new ItemAbility("Nuts", "Lmao my nuts itch", ItemAbility.AbilityTypes.LEFT_CLICK, 30)),
+                -1
         );
 
     }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.utils.*;
+import xyz.akiradev.pluginutils.utils.HexUtils;
 
 import java.util.Arrays;
 
@@ -26,7 +27,8 @@ public class FemboyStick extends DeezItem {
                 64,
                 null,
                 10,
-                Arrays.asList(new ItemAbility("kiss", "Give someone a fat smooch", ItemAbility.AbilityTypes.LEFT_CLICK, 0))
+                Arrays.asList(new ItemAbility("kiss", "Give someone a fat smooch", ItemAbility.AbilityTypes.LEFT_CLICK)),
+                1
         );
 
     }

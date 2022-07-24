@@ -4,7 +4,7 @@ main: xyz.akiradev.deezitems.DeezItems
 api-version: 1.19
 authors: [ AkiraDev ]
 description: Custom item plugin since all the others are wacc
-softdepend: [ProtocolLib]
+softdepend: [PlaceholderAPI]
 commands:
   deezitems:
     usage: /deez
@@ -15,4 +15,13 @@ permissions:
     default: op
   deezitems.reload:
     description: Allows the player to reload the plugin
+    default: op
+  deezitems.item.*:
+    description: Allows the player to use any item
+    default: true
+  deezitems.rarity.*:
+    description: Allows the player to use any rarity
+    default: true
+  deezitems.admin:
+    description: Allows the player to use admin commands
     default: op

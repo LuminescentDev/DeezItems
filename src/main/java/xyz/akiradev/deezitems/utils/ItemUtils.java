@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import xyz.akiradev.deezitems.DeezItems;
+import xyz.akiradev.deezitems.manager.LocaleManager;
+import xyz.akiradev.pluginutils.utils.HexUtils;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ItemUtils {
+
+    private ItemUtils() {}
 
     public static final Set<Material> UNBREAKABLE;
 
@@ -54,6 +58,16 @@ public class ItemUtils {
     public static void setItemLore(ItemStack item, List<String> lore) {
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
+
+    /**
+     * set custom model if of an itemstack
+     *
+     */
+    public static void setCustomModelID(ItemStack item, int id) {
+        ItemMeta meta = item.getItemMeta();
+        meta.setCustomModelData(id);
         item.setItemMeta(meta);
     }
 
@@ -161,6 +175,18 @@ public class ItemUtils {
             }
         }
         return lore;
+    }
+
+    public static boolean hasPermission(Player player, DeezItem item){
+        LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
+        if(!player.hasPermission("deezitems.item." + item.getName().replace(" ", "_"))){
+            TextUtils.warnPlayer(player, localeManager.getLocaleMessage("no-permission-item"));
+            return true;
+        }else if(player.hasPermission("deezitems.rarity." + item.getRarityName())){
+            return false;
+        }
+        TextUtils.warnPlayer(player, localeManager.getLocaleMessage("no-permission-item"));
+        return true;
     }
 
     public static boolean getLookingAtEntity(Player player, Entity target) {

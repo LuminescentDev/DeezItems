@@ -25,8 +25,9 @@ public class TrenchPick extends DeezItem {
                 "Legendary",
                 1,
                 null,
-                -1,
-                Arrays.asList(new ItemAbility("Trench", "Break blocks", ItemAbility.AbilityTypes.BLOCK_BREAK, 30))
+                500,
+                Arrays.asList(new ItemAbility("Trench", "Break blocks", ItemAbility.AbilityTypes.BLOCK_BREAK)),
+                -1
                 );
     }
 

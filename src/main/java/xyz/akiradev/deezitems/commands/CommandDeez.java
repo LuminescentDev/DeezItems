@@ -6,19 +6,32 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import xyz.akiradev.deezitems.manager.LocaleManager;
 import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.DeezItems;
-import xyz.akiradev.deezitems.utils.HexUtils;
 import xyz.akiradev.deezitems.utils.TextUtils;
-import xyz.akiradev.deezitems.utils.ConfigManager;
+import xyz.akiradev.pluginutils.utils.HexUtils;
+import xyz.akiradev.pluginutils.utils.StringPlaceholders;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandDeez implements CommandExecutor, TabCompleter {
+    private final LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
+    private DeezItems plugin;
+
+    public CommandDeez(DeezItems plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        LocaleManager localeManager = this.plugin.getManager(LocaleManager.class);
         try{
+            if(args.length == 0){
+                TextUtils.warnPlayer(sender, localeManager.getLocaleMessage("help"));
+                return true;
+            }
             switch (args[0].toLowerCase()){
                 case "help":
                     helpInfo(sender);
@@ -33,23 +46,23 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
                     if(sender.hasPermission("deezitems.give")){
                         give(sender, args);
                     } else {
-                        TextUtils.warnPlayer(sender, "You don't have permission to use this command.");
+                        TextUtils.warnPlayer(sender, localeManager.getLocaleMessage("no-permission-command"));
                     }
                     break;
                 case "reload":
                     if(sender.hasPermission("deezitems.reload")){
-                        ConfigManager.reloadConfig();
-                        HexUtils.sendMessage(sender, "Config reloaded");
+                        this.plugin.reload();
+                        localeManager.sendMessage(sender, "reload-success");
                     } else {
-                        TextUtils.warnPlayer(sender, "You don't have permission to use this command.");
+                        TextUtils.warnPlayer(sender, localeManager.getLocaleMessage("no-permission-command"));
                     }
                     break;
                 default:
-                    TextUtils.warnPlayer(sender, "Unknown command. Use /deezitems help for help.");
+                    TextUtils.warnPlayer(sender, localeManager.getLocaleMessage("unknown-command"));
                     break;
             }
         }catch (Exception e){
-            TextUtils.warnPlayer(sender, "Something went wrong");
+            TextUtils.warnPlayer(sender, localeManager.getLocaleMessage("error-occurred"));
             DeezItems.getInstance().getLogger().warning(e.getMessage());
         }
         return true;
@@ -73,8 +86,8 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
         }
 
         /* suggest items */
-        if(args.length == 2){
-            completions.addAll(DeezItems.getItemNames());
+        if(args.length == 2 && args[0].equalsIgnoreCase("give")){
+            completions.addAll(DeezItems.getInstance().getItemNames());
         }
 
 
@@ -100,9 +113,9 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
             ItemStack item = DeezItems.getDeezItem(args[1]).Generate(amount);
             if(item != null) {
                 player.getInventory().addItem(item);
-                HexUtils.sendMessage(sender, "Given " +  DeezItems.getDeezItem(args[1]).getName());
+                localeManager.sendMessage(player, "item-given", StringPlaceholders.single("item", DeezItems.getDeezItem(args[1]).getName()));
             }else{
-                TextUtils.warnPlayer(sender, "Item not found");
+                TextUtils.warnPlayer(sender, localeManager.getLocaleMessage("no-item-found"));
             }
         }
     }
@@ -113,7 +126,7 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
     public void listItems(CommandSender sender) {
         ArrayList<String> items = new ArrayList<>();
 
-        for (DeezItem item : DeezItems.getItems()) {
+        for (DeezItem item : DeezItems.getInstance().getItems()) {
             String itemName = item.getRarityColor() + item.getName();
             items.add(itemName);
         }
@@ -139,14 +152,15 @@ public class CommandDeez implements CommandExecutor, TabCompleter {
      * Sends help info to the player
      */
     public void helpInfo(CommandSender sender) {
+        LocaleManager localeManager = this.plugin.getManager(LocaleManager.class);
         List<String> infoLines = new ArrayList<>();
 
-        infoLines.add("&8&l /deezitems list - Lists all items");
-        infoLines.add("&8&l /deezitems info - Shows plugin info");
-        infoLines.add("&8&l /deezitems help - Shows this help info");
+        infoLines.add(localeManager.getLocaleMessage("help"));
+        infoLines.add(localeManager.getLocaleMessage("help-list"));
+        infoLines.add(localeManager.getLocaleMessage("help-info"));
         if (sender.hasPermission("deezitems.admin")) {
-            infoLines.add("&8&l /deezitems reload - Reloads the plugin");
-            infoLines.add("&8&l /deezitems give <item> - Gives a player an item");
+            infoLines.add(localeManager.getLocaleMessage("help-reload"));
+            infoLines.add(localeManager.getLocaleMessage("help-give"));
         }
 
         TextUtils.multilineReply(sender, "&8&l---------DeezItems Help---------", "&8&l-------------------------------", infoLines);

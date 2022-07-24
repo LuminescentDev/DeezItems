@@ -27,6 +27,9 @@ public class EventPlayerUseDeezItem implements Listener {
         Player player = event.getPlayer();
         DeezItem deezItem = ItemUtils.getDeezItem(item);
         if (deezItem != null) {
+            if(ItemUtils.hasPermission(player, deezItem)){
+                return;
+            }
             if (event.getAction() == Action.LEFT_CLICK_AIR) {
                 if (!player.isSneaking()) {
                     if (deezItem.leftClickAirAction(player, item)) {
