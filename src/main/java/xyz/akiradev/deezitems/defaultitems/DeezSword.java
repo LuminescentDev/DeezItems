@@ -33,7 +33,7 @@ public class DeezSword extends DeezItem {
     @Override
     public boolean leftClickAirAction(Player player, ItemStack item) {
         // enforce the 30 second cooldown of the fireball ability
-        //if (ItemAbility.enforceCooldown(player, "fireball", 30, item, true)) return false;
+        if (ItemAbility.enforceCooldown(player, "fireball", 30, item, true)) return false;
 
         // shoot 3 fireballs
         int amount = 3; // minimum 1
