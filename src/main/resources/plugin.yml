@@ -5,23 +5,3 @@ api-version: 1.19
 authors: [ AkiraDev ]
 description: Custom item plugin since all the others are wacc
 softdepend: [PlaceholderAPI]
-commands:
-  deezitems:
-    usage: /deez
-
-permissions:
-  deezitems.give:
-    description: Allows the player to give items to other players
-    default: op
-  deezitems.reload:
-    description: Allows the player to reload the plugin
-    default: op
-  deezitems.item.*:
-    description: Allows the player to use any item
-    default: true
-  deezitems.rarity.*:
-    description: Allows the player to use any rarity
-    default: true
-  deezitems.admin:
-    description: Allows the player to use admin commands
-    default: op

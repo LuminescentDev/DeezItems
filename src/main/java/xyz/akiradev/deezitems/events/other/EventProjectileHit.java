@@ -13,22 +13,21 @@ public class EventProjectileHit implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onProjectileHit(ProjectileHitEvent event) {
-        if(event.getEntity().getShooter() instanceof Player){
-            Player player = (Player) event.getEntity().getShooter();
-            if(ItemUtils.isDeez(player.getInventory().getItemInMainHand())){
-                useItem(event, player.getInventory().getItemInMainHand());
-            }
+        if (!(event.getEntity().getShooter() instanceof Player player)) {
+            return;
+        }
+
+        ItemStack mainHandItem = player.getInventory().getItemInMainHand();
+        if (ItemUtils.isDeezItem(mainHandItem)) {
+            useItem(event, mainHandItem);
         }
     }
 
     private void useItem(ProjectileHitEvent event, ItemStack item) {
         Player player = (Player) event.getEntity().getShooter();
         DeezItem deezItem = ItemUtils.getDeezItem(item);
-        if (deezItem != null) {
-            if(deezItem.projectileHitAction(player, event, item)){
-                deezItem.onItemUse(player, item);
-            }
+        if (deezItem != null && deezItem.projectileHitAction(player, event, item)) {
+            deezItem.onItemUse(player, item);
         }
     }
-
 }

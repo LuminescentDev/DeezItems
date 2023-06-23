@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ItemRarity {
 
-    public static Map<String, String> Raritys = new HashMap<>();
+    public static final Map<String, String> Raritys = new HashMap<>();
 
     public static void loadRaritys() {
         Raritys.put("Common", Setting.RARITY_COLOR_COMMON.getString());
@@ -22,7 +22,5 @@ public class ItemRarity {
     public static String getColor(String rarity) {
         return Raritys.get(rarity);
     }
-
-
 
 }

@@ -1,41 +1,35 @@
 package xyz.akiradev.deezitems;
 
-import xyz.akiradev.deezitems.manager.ConfigurationManager;
-import xyz.akiradev.deezitems.manager.LocaleManager;
-import xyz.akiradev.deezitems.defaultitems.DeezSword;
-import xyz.akiradev.deezitems.defaultitems.FemboyStick;
-import xyz.akiradev.deezitems.defaultitems.LazerSword;
-import xyz.akiradev.deezitems.defaultitems.TrenchPick;
+import dev.rosewood.rosegarden.RosePlugin;
+import dev.rosewood.rosegarden.manager.Manager;
+import xyz.akiradev.deezitems.defaultitems.items.*;
+//import xyz.akiradev.deezitems.defaultitems.materials.EnchantedStick;
+import xyz.akiradev.deezitems.manager.*;
 import xyz.akiradev.deezitems.events.other.EventProjectileHit;
 import xyz.akiradev.deezitems.events.player.EventPlayerCraft;
-import xyz.akiradev.deezitems.utils.DeezItem;
-import xyz.akiradev.deezitems.commands.CommandDeez;
 import xyz.akiradev.deezitems.events.block.EventBlockBreak;
 import xyz.akiradev.deezitems.events.block.EventBlockPlace;
 import xyz.akiradev.deezitems.events.player.EventPlayerUseDeezItem;
 import xyz.akiradev.deezitems.utils.ItemRarity;
-import xyz.akiradev.pluginutils.PluginUtils;
-import xyz.akiradev.pluginutils.manager.Manager;
 
 import java.util.*;
 
-public final class DeezItems extends PluginUtils {
-    private final Map<String, DeezItem> items = new HashMap<>();
-    private final Map<Integer, DeezItem> itemIDs = new HashMap<>();
+public final class DeezItems extends RosePlugin {
     private static DeezItems instance;
 
     public DeezItems() {
-        super(103356, 15738, ConfigurationManager.class, LocaleManager.class);
+        super(103356, 15738, ConfigurationManager.class, null, LocaleManager.class, CommandManager.class);
         instance = this;
     }
 
     @Override
     protected void enable() {
         registerEvents();
-        registerCommands();
+        ItemRarity.loadRaritys();
+//        registerDefaultMaterials();
         registerDefaultItems();
         hookIntoPlugins();
-        ItemRarity.loadRaritys();
+        getManager(GUIManager.class).createGui();
     }
 
     @Override
@@ -56,38 +50,17 @@ public final class DeezItems extends PluginUtils {
     }
 
     public void registerDefaultItems() {
-        registerItem("deez_sword", new DeezSword());
-        registerItem("lazer_sword", new LazerSword());
-        registerItem("trench_pickaxe", new TrenchPick());
-        registerItem("femboy_stick", new FemboyStick());
+        ItemManager itemManager = DeezItems.getInstance().getManager(ItemManager.class);
+        itemManager.registerItem(new DeezSword());
+        itemManager.registerItem(new LazerSword());
+        itemManager.registerItem(new TrenchPick());
+        itemManager.registerItem(new FemboyStick());
     }
 
-    public void registerCommands(){
-        this.getCommand("deezitems").setExecutor(new CommandDeez(this));
-        this.getCommand("deezitems").setTabCompleter(new CommandDeez(this));
-    }
-
-    public static void registerItem(String name, DeezItem item){
-        instance.items.put(name, item);
-        instance.itemIDs.put(item.getItemID(), item);
-        DeezItems.getInstance().getLogger().info("Registering item: " + name);
-    }
-
-    public Collection<DeezItem> getItems() {
-        return items.values();
-    }
-
-    public Collection<String> getItemNames() {
-        return items.keySet();
-    }
-
-    public static DeezItem getDeezItem(String name) {
-        return instance.items.get(name);
-    }
-
-    public static DeezItem getDeezItemFromID(int id) {
-        return instance.itemIDs.get(id);
-    }
+//    public void registerDefaultMaterials() {
+//        MaterialManager materialManager = DeezItems.getInstance().getManager(MaterialManager.class);
+//        materialManager.registerMaterial(new EnchantedStick());
+//    }
 
     public static DeezItems getInstance() {
         return instance;
@@ -95,10 +68,7 @@ public final class DeezItems extends PluginUtils {
 
     @Override
     protected List<Class<? extends Manager>> getManagerLoadPriority() {
-        return Arrays.asList(
-                ConfigurationManager.class,
-                LocaleManager.class
-        );
+        return List.of();
     }
 
 }

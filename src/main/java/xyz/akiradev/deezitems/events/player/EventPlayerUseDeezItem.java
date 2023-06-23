@@ -14,23 +14,31 @@ public class EventPlayerUseDeezItem implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerUse(PlayerInteractEvent event) {
-        if(ItemUtils.isDeez(event.getPlayer().getInventory().getItemInMainHand())){
-            this.useItem(event, event.getPlayer().getInventory().getItemInMainHand());
+        Player player = event.getPlayer();
+        ItemStack mainHandItem = player.getInventory().getItemInMainHand();
+        ItemStack offHandItem = player.getInventory().getItemInOffHand();
+
+        if (ItemUtils.isDeezItem(mainHandItem)) {
+            useItem(event, mainHandItem);
         }
 
-        if(ItemUtils.isDeez(event.getPlayer().getInventory().getItemInOffHand())){
-            this.useItem(event, event.getPlayer().getInventory().getItemInOffHand());
+        if (ItemUtils.isDeezItem(offHandItem)) {
+            useItem(event, offHandItem);
         }
     }
 
     private void useItem(PlayerInteractEvent event, ItemStack item) {
         Player player = event.getPlayer();
         DeezItem deezItem = ItemUtils.getDeezItem(item);
-        if (deezItem != null) {
-            if(ItemUtils.hasPermission(player, deezItem)){
-                return;
-            }
-            if (event.getAction() == Action.LEFT_CLICK_AIR) {
+
+        if (deezItem == null || ItemUtils.hasPermission(player, deezItem)) {
+            return;
+        }
+
+        Action action = event.getAction();
+
+        switch (action) {
+            case LEFT_CLICK_AIR -> {
                 if (!player.isSneaking()) {
                     if (deezItem.leftClickAirAction(player, item)) {
                         deezItem.onItemUse(player, item);
@@ -38,7 +46,8 @@ public class EventPlayerUseDeezItem implements Listener {
                 } else if (deezItem.shiftleftClickAirAction(player, item)) {
                     deezItem.onItemUse(player, item);
                 }
-            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            }
+            case LEFT_CLICK_BLOCK -> {
                 if (!player.isSneaking()) {
                     if (deezItem.leftClickBlockAction(player, event, event.getClickedBlock(), item)) {
                         deezItem.onItemUse(player, item);
@@ -46,7 +55,8 @@ public class EventPlayerUseDeezItem implements Listener {
                 } else if (deezItem.shiftleftClickBlockAction(player, event, event.getClickedBlock(), item)) {
                     deezItem.onItemUse(player, item);
                 }
-            } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+            }
+            case RIGHT_CLICK_AIR -> {
                 if (!player.isSneaking()) {
                     if (deezItem.rightClickAirAction(player, item)) {
                         deezItem.onItemUse(player, item);
@@ -54,7 +64,8 @@ public class EventPlayerUseDeezItem implements Listener {
                 } else if (deezItem.shiftrightClickAirAction(player, item)) {
                     deezItem.onItemUse(player, item);
                 }
-            } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            }
+            case RIGHT_CLICK_BLOCK -> {
                 if (!player.isSneaking()) {
                     if (deezItem.rightClickBlockAction(player, event, event.getClickedBlock(), item)) {
                         deezItem.onItemUse(player, item);

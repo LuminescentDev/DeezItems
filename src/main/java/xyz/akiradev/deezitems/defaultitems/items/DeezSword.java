@@ -1,4 +1,4 @@
-package xyz.akiradev.deezitems.defaultitems;
+package xyz.akiradev.deezitems.defaultitems.items;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,18 +13,19 @@ import xyz.akiradev.deezitems.utils.DeezItem;
 import xyz.akiradev.deezitems.utils.ItemAbility;
 import xyz.akiradev.deezitems.utils.ItemUtils;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class DeezSword extends DeezItem {
+    public static final ItemAbility fireball = new ItemAbility("fireball", "Shoots a fireball", ItemAbility.AbilityTypes.LEFT_CLICK, 30);
     public DeezSword() {
         super(
+                "deez_sword",
                 Material.DIAMOND_SWORD,
                 "Deez Sword",
                 "Uncommon",
-                1,
                 null,
                 5,
-                Arrays.asList(new ItemAbility("Nuts", "Lmao my nuts itch", ItemAbility.AbilityTypes.LEFT_CLICK, 30)),
+                List.of(fireball),
                 -1
         );
 
@@ -32,8 +33,8 @@ public class DeezSword extends DeezItem {
 
     @Override
     public boolean leftClickAirAction(Player player, ItemStack item) {
-        // enforce the 30 second cooldown of the fireball ability
-        if (ItemAbility.enforceCooldown(player, "fireball", 30, item, true)) return false;
+        // enforce the 30-second cooldown of the fireball ability
+        if (fireball.enforceCooldown(player, item, true)) return false;
 
         // shoot 3 fireballs
         int amount = 3; // minimum 1
@@ -92,6 +93,11 @@ public class DeezSword extends DeezItem {
     @Override
     public boolean projectileHitAction(Player player, ProjectileHitEvent event, ItemStack item) {
         return false;
+    }
+
+    @Override
+    public void registerRecipe() {
+
     }
 
     public void shootFireBall(Player player) {

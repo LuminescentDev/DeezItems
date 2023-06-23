@@ -1,16 +1,17 @@
 package xyz.akiradev.deezitems.manager;
 
+import dev.rosewood.rosegarden.RosePlugin;
+import dev.rosewood.rosegarden.config.CommentedFileConfiguration;
+import dev.rosewood.rosegarden.config.RoseSetting;
+import dev.rosewood.rosegarden.manager.AbstractConfigurationManager;
 import xyz.akiradev.deezitems.DeezItems;
-import xyz.akiradev.pluginutils.PluginUtils;
-import xyz.akiradev.pluginutils.config.CommentedFileConfiguration;
-import xyz.akiradev.pluginutils.config.PluginSetting;
-import xyz.akiradev.pluginutils.manager.AbstractConfigurationManager;
 
 public class ConfigurationManager extends AbstractConfigurationManager {
 
-    public enum Setting implements PluginSetting {
+    public enum Setting implements RoseSetting {
         CAN_CRAFT_WITH_ITEMS("can-craft-with-items", true, "Can users use deez items as regular items in crafting?"),
         USE_ACTIONBAR("use-actionbar", true, "use actionbar instead of chat for certain things?"),
+        USE_GUI_FOR_LIST("use-gui-for-list", false, "Use gui for item list instead of chat?"),
         RARITY_COLOR_COMMON("rarity-color-common", "#04ff00", "Rarity color for common items"),
         RARITY_COLOR_UNCOMMON("rarity-color-uncommon", "#009b02", "Rarity color for uncommon items"),
         RARITY_COLOR_RARE("rarity-color-rare", "#00b0ff", "Rarity color for rare items"),
@@ -61,7 +62,7 @@ public class ConfigurationManager extends AbstractConfigurationManager {
         }
     }
 
-    public ConfigurationManager(PluginUtils plugin) {
+    public ConfigurationManager(RosePlugin plugin) {
         super(plugin, Setting.class);
     }
 

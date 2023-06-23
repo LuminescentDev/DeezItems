@@ -13,7 +13,7 @@ public class EventBlockBreak implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
-        if(ItemUtils.isDeez(event.getPlayer().getInventory().getItemInMainHand())){
+        if (ItemUtils.isDeezItem(event.getPlayer().getInventory().getItemInMainHand())) {
             useItem(event, event.getPlayer().getInventory().getItemInMainHand());
         }
     }
@@ -21,10 +21,8 @@ public class EventBlockBreak implements Listener {
     private void useItem(BlockBreakEvent event, ItemStack item) {
         Player player = event.getPlayer();
         DeezItem deezItem = ItemUtils.getDeezItem(item);
-        if (deezItem != null) {
-            if(deezItem.breakBlockAction(player, event, event.getBlock(), item)){
-                deezItem.onItemUse(player, item);
-            }
+        if (deezItem != null && deezItem.breakBlockAction(player, event, event.getBlock(), item)) {
+            deezItem.onItemUse(player, item);
         }
     }
 

@@ -1,5 +1,6 @@
 package xyz.akiradev.deezitems.utils;
 
+import dev.rosewood.rosegarden.utils.HexUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,27 +14,44 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import xyz.akiradev.deezitems.DeezItems;
+import xyz.akiradev.deezitems.manager.ItemManager;
 import xyz.akiradev.deezitems.manager.LocaleManager;
-import xyz.akiradev.pluginutils.utils.HexUtils;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class ItemUtils {
-
-    private ItemUtils() {}
 
     public static final Set<Material> UNBREAKABLE;
 
+    static {
+        UNBREAKABLE = EnumSet.of(
+                Material.END_PORTAL_FRAME,
+                Material.STRUCTURE_BLOCK,
+                Material.COMMAND_BLOCK,
+                Material.NETHER_PORTAL,
+                Material.END_GATEWAY,
+                Material.END_PORTAL,
+                Material.BEDROCK,
+                Material.BARRIER
+        );
+    }
+
+    private ItemUtils() {
+    }
+
     /**
      * set the name of an itemstack
+     *
      * @param item - itemstack to be named
      * @param name - name to be set
      */
     public static ItemStack nameItem(ItemStack item, String name) {
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.setDisplayName(HexUtils.colorify(name));
         item.setItemMeta(meta);
         return item;
@@ -41,8 +59,9 @@ public class ItemUtils {
 
     /**
      * set the name of a material
+     *
      * @param material - material to be named
-     * @param name - lore to be set
+     * @param name     - lore to be set
      */
     public static ItemStack nameItem(Material material, String name) {
         ItemStack item = new ItemStack(material);
@@ -57,16 +76,17 @@ public class ItemUtils {
      */
     public static void setItemLore(ItemStack item, List<String> lore) {
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.setLore(lore);
         item.setItemMeta(meta);
     }
 
     /**
      * set custom model if of an itemstack
-     *
      */
     public static void setCustomModelID(ItemStack item, int id) {
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.setCustomModelData(id);
         item.setItemMeta(meta);
     }
@@ -74,40 +94,43 @@ public class ItemUtils {
     /**
      * Give ItemStack enchant glint
      */
-    public static void setGlowing(ItemStack item){
+    public static void setGlowing(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        assert meta != null;
+        meta.addEnchant(Enchantment.LUCK, 0, true);
         item.setItemMeta(meta);
     }
 
     /**
      * repair an ItemStack if Damageable
      */
-    public static void repairItem(ItemStack item){
+    public static void repairItem(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        if(meta instanceof Damageable){
+        if (meta instanceof Damageable) {
             ((Damageable) meta).setDamage(0);
             item.setItemMeta(meta);
         }
     }
 
-    public static void storeStringInItem(ItemStack item, String string, String ID){
+    public static void storeStringInItem(ItemStack item, String string, String ID) {
         NamespacedKey key = new NamespacedKey(DeezItems.getInstance(), ID);
         if (item != null) {
-            if(item.hasItemMeta()){
+            if (item.hasItemMeta()) {
                 ItemMeta meta = item.getItemMeta();
+                assert meta != null;
                 meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, string);
                 item.setItemMeta(meta);
             }
         }
     }
 
-    public static String getStringFromItem(ItemStack item, String ID){
+    public static String getStringFromItem(ItemStack item, String ID) {
         NamespacedKey key = new NamespacedKey(DeezItems.getInstance(), ID);
         if (item != null) {
-            if(item.hasItemMeta()){
+            if (item.hasItemMeta()) {
                 ItemMeta meta = item.getItemMeta();
-                if(meta.getPersistentDataContainer().has(key, PersistentDataType.STRING)){
+                assert meta != null;
+                if (meta.getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     return meta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
                 }
             }
@@ -115,24 +138,26 @@ public class ItemUtils {
         return null;
     }
 
-    public static void storeIntInItem(ItemStack item, int integer, String ID){
+    public static void storeIntInItem(ItemStack item, int integer, String ID) {
         NamespacedKey key = new NamespacedKey(DeezItems.getInstance(), ID);
         if (item != null) {
-            if(item.hasItemMeta()){
+            if (item.hasItemMeta()) {
                 ItemMeta meta = item.getItemMeta();
+                assert meta != null;
                 meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, integer);
                 item.setItemMeta(meta);
             }
         }
     }
 
-    public static int getIntFromItem(ItemStack item, String ID){
+    public static int getIntFromItem(ItemStack item, String ID) {
         NamespacedKey key = new NamespacedKey(DeezItems.getInstance(), ID);
         if (item != null) {
-            if(item.hasItemMeta()){
+            if (item.hasItemMeta()) {
                 ItemMeta meta = item.getItemMeta();
-                if(meta.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)){
-                    return meta.getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
+                assert meta != null;
+                if (meta.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
+                    return meta.getPersistentDataContainer().getOrDefault(key, PersistentDataType.INTEGER, 0);
                 }
             }
         }
@@ -155,34 +180,34 @@ public class ItemUtils {
     }
 
     //convert a string to lore with a max line length and a ChatColor before each line
-    public static List<String> convertStringToLore(String string, int maxLineLength, ChatColor color){
+    public static List<String> convertStringToLore(String string, int maxLineLength, ChatColor color) {
         List<String> lore = new ArrayList<>();
         String[] lines = string.split("\n");
-        for(String line : lines){
-            if(line.length() > maxLineLength){
+        for (String line : lines) {
+            if (line.length() > maxLineLength) {
                 String[] words = line.split(" ");
                 StringBuilder sb = new StringBuilder();
-                for(String word : words){
-                    if(sb.length() + word.length() + 1 > maxLineLength){
+                for (String word : words) {
+                    if (sb.length() + word.length() + 1 > maxLineLength) {
                         lore.add(color + sb.toString());
                         sb = new StringBuilder();
                     }
                     sb.append(word).append(" ");
                 }
                 lore.add(color + sb.toString());
-            }else{
+            } else {
                 lore.add(color + line);
             }
         }
         return lore;
     }
 
-    public static boolean hasPermission(Player player, DeezItem item){
+    public static boolean hasPermission(Player player, DeezItem item) {
         LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
-        if(!player.hasPermission("deezitems.item." + item.getName().replace(" ", "_"))){
+        if (!player.hasPermission("deezitems.item." + item.getName().replace(" ", "_"))) {
             TextUtils.warnPlayer(player, localeManager.getLocaleMessage("no-permission-item"));
             return true;
-        }else if(player.hasPermission("deezitems.rarity." + item.getRarityName())){
+        } else if (player.hasPermission("deezitems.rarity." + item.getRarityName())) {
             return false;
         }
         TextUtils.warnPlayer(player, localeManager.getLocaleMessage("no-permission-item"));
@@ -202,11 +227,11 @@ public class ItemUtils {
     }
 
     public static Entity getTargetInRange(Player player, double range) {
-            for (Entity entity : entitiesInRange(player, range)) {
-                if (getLookingAtEntity(player, entity)) {
-                    return entity;
-                }
+        for (Entity entity : entitiesInRange(player, range)) {
+            if (getLookingAtEntity(player, entity)) {
+                return entity;
             }
+        }
         return null;
     }
 
@@ -216,29 +241,20 @@ public class ItemUtils {
         return to.subtract(from);
     }
 
-    public static void delayedTask(Runnable runnable, int delay){
+    public static void delayedTask(Runnable runnable, int delay) {
         DeezItems.getInstance().getServer().getScheduler().runTaskLater(DeezItems.getInstance(), runnable, delay);
     }
 
-    public static boolean isDeez(ItemStack item){
+    public static boolean isDeezItem(ItemStack item) {
         return getIntFromItem(item, "itemID") != 0;
     }
 
-    public static DeezItem getDeezItem(ItemStack item){
-        int isDeez = getIntFromItem(item, "itemID");
-        return isDeez == 0 ? null : DeezItems.getDeezItemFromID(isDeez);
+    public static boolean isDeezMaterial(ItemStack item) {
+        return getIntFromItem(item, "materialID") != 0;
     }
 
-    static {
-        UNBREAKABLE = EnumSet.of(
-                Material.END_PORTAL_FRAME,
-                Material.STRUCTURE_BLOCK,
-                Material.COMMAND_BLOCK,
-                Material.NETHER_PORTAL,
-                Material.END_GATEWAY,
-                Material.END_PORTAL,
-                Material.BEDROCK,
-                Material.BARRIER
-        );
+    public static DeezItem getDeezItem(ItemStack item) {
+        int isDeez = getIntFromItem(item, "itemID");
+        return isDeez == 0 ? null : DeezItems.getInstance().getManager(ItemManager.class).getItemFromID(isDeez);
     }
 }

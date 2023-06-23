@@ -6,14 +6,14 @@
 
     <groupId>xyz.akiradev</groupId>
     <artifactId>DeezItems</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>DeezItems</name>
 
     <description>Custom item plugin since all the others are wacc</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -27,16 +27,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -47,8 +47,12 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>xyz.akiradev.pluginutils</pattern>
-                                    <shadedPattern>xyz.akiradev.pUtils</shadedPattern>
+                                    <pattern>dev.rosewood.rosegarden</pattern>
+                                    <shadedPattern>xyz.akiradev.deezitems.libs.rosegarden</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>dev.triumphteam.gui</pattern>
+                                    <shadedPattern>xyz.akiradev.deezitems.libs.gui</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -74,8 +78,8 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>akiradev-repo</id>
-            <url>https://repo.akiradev.xyz/repository/public/</url>
+            <id>rosewood-repo</id>
+            <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
     </repositories>
 
@@ -83,16 +87,23 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
+            <version>1.20-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>xyz.akiradev</groupId>
-            <artifactId>PluginUtils</artifactId>
-            <version>1.0.0</version>
+            <groupId>dev.rosewood</groupId>
+            <artifactId>rosegarden</artifactId>
+            <version>1.1.0.42-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.triumphteam</groupId>
+            <artifactId>triumph-gui</artifactId>
+            <version>3.1.5</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
     <distributionManagement>
         <repository>
             <id>nexus-site</id>
