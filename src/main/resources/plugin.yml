@@ -1,6 +1,6 @@
 name: DeezItems
 version: '${project.version}'
-main: xyz.akiradev.deezitems.DeezItems
+main: dev.luminescent.deezitems.DeezItems
 api-version: 1.19
 authors: [ AkiraDev ]
 description: Custom item plugin since all the others are wacc

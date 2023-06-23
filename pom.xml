@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.akiradev</groupId>
+    <groupId>dev.luminescent</groupId>
     <artifactId>DeezItems</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
@@ -48,11 +48,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>dev.rosewood.rosegarden</pattern>
-                                    <shadedPattern>xyz.akiradev.deezitems.libs.rosegarden</shadedPattern>
+                                    <shadedPattern>dev.luminescent.deezitems.libs.rosegarden</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>dev.triumphteam.gui</pattern>
-                                    <shadedPattern>xyz.akiradev.deezitems.libs.gui</shadedPattern>
+                                    <shadedPattern>dev.luminescent.deezitems.libs.gui</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
