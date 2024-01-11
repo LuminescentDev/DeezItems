@@ -23,7 +23,7 @@ public class DeezCommandWrapper extends RoseCommandWrapper {
 
     @Override
     public List<String> getCommandPackages() {
-        return List.of("xyz.akiradev.deezitems.command.commands");
+        return List.of("dev.luminescent.deezitems.command.commands");
     }
 
     @Override

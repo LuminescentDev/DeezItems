@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -257,4 +258,20 @@ public class ItemUtils {
         int isDeez = getIntFromItem(item, "itemID");
         return isDeez == 0 ? null : DeezItems.getInstance().getManager(ItemManager.class).getItemFromID(isDeez);
     }
+
+    public static boolean moveItemsToFreeSlot(Inventory inventory, ItemStack itemStack, int amount) {
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack slotItem = inventory.getItem(i);
+
+            // Check if the slot is empty or has the same type as the itemStack
+            if (slotItem == null) {
+                slotItem = itemStack.clone();
+                slotItem.setAmount(amount);
+                inventory.setItem(i, slotItem);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

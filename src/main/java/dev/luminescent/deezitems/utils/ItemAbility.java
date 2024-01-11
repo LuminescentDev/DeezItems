@@ -18,19 +18,22 @@ import java.util.List;
 public class ItemAbility {
 
     private static final LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
+    private final String ID;
     private final String abilityName;
     private final String abilityDescription;
     private final AbilityTypes abilityType;
     private float abilityCooldown;
 
-    public ItemAbility(String abilityName, String abilityDescription, AbilityTypes abilityType, float abilityCooldown) {
+    public ItemAbility(String ID, String abilityName, String abilityDescription, AbilityTypes abilityType, float abilityCooldown) {
+        this.ID = ID;
         this.abilityName = abilityName;
         this.abilityDescription = abilityDescription;
         this.abilityType = abilityType;
         this.abilityCooldown = abilityCooldown;
     }
 
-    public ItemAbility(String abilityName, String abilityDescription, AbilityTypes abilityType) {
+    public ItemAbility(String ID, String abilityName, String abilityDescription, AbilityTypes abilityType) {
+        this.ID = ID;
         this.abilityName = abilityName;
         this.abilityDescription = abilityDescription;
         this.abilityType = abilityType;
@@ -48,14 +51,14 @@ public class ItemAbility {
 
     public boolean enforceCooldown(Player player, ItemStack item, boolean sendMessage) {
         double systime = (double) System.currentTimeMillis() / 1000.0;
-        int cooldownTime = ItemUtils.getIntFromItem(item, abilityName);
+        int cooldownTime = ItemUtils.getIntFromItem(item, ID);
         if (cooldownTime <= 0) {
-            ItemUtils.storeIntInItem(item, (int) systime, abilityName);
+            ItemUtils.storeIntInItem(item, (int) systime, ID);
             return false;
         } else if (systime - abilityCooldown > (double) cooldownTime) {
-            ItemUtils.storeIntInItem(item, (int) systime, abilityName);
+            ItemUtils.storeIntInItem(item, (int) systime, ID);
             return false;
-        } else {
+        } else if(sendMessage) {
             if (ConfigurationManager.Setting.USE_ACTIONBAR.getBoolean()) {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(HexUtils.colorify(
                         localeManager.getLocaleMessage("cooldown-message", StringPlaceholders.single("time", (cooldownTime - (int) (systime - abilityCooldown))))

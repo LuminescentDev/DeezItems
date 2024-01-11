@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import dev.luminescent.deezitems.utils.DeezItem;
@@ -18,7 +16,7 @@ import java.util.List;
 
 public class TrenchPick extends DeezItem {
 
-    public static final ItemAbility TRENCH = new ItemAbility("trench", "Break blocks", ItemAbility.AbilityTypes.BLOCK_BREAK, 1.5f);
+    public static final ItemAbility TRENCH = new ItemAbility("trench", "Trench", "Break blocks", ItemAbility.AbilityTypes.BLOCK_BREAK, 1.5f);
 
     public TrenchPick() {
         super(
@@ -31,51 +29,6 @@ public class TrenchPick extends DeezItem {
                 List.of(TRENCH),
                 -1
                 );
-    }
-
-    @Override
-    public boolean leftClickAirAction(Player player, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean leftClickBlockAction(Player player, PlayerInteractEvent event, Block block, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean shiftleftClickAirAction(Player player, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean shiftleftClickBlockAction(Player player, PlayerInteractEvent event, Block block, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean rightClickAirAction(Player player, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean rightClickBlockAction(Player player, PlayerInteractEvent event, Block block, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean shiftrightClickAirAction(Player player, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean shiftrightClickBlockAction(Player player, PlayerInteractEvent event, Block block, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public boolean middleClickAction(Player player, ItemStack item) {
-        return false;
     }
 
     @Override
@@ -134,16 +87,6 @@ public class TrenchPick extends DeezItem {
         }
 
         return true;
-    }
-
-    @Override
-    public boolean projectileHitAction(Player player, ProjectileHitEvent event, ItemStack item) {
-        return false;
-    }
-
-    @Override
-    public void registerRecipe() {
-
     }
 
     enum Direction

@@ -22,7 +22,7 @@ public class ItemArgumentHandler extends RoseCommandArgumentHandler<DeezItem> {
         String input = argumentParser.next();
         DeezItem item = this.rosePlugin.getManager(ItemManager.class).getItem(input);
         if (item == null) {
-            throw new HandledArgumentException("item-not-found", StringPlaceholders.single("item", input));
+            throw new HandledArgumentException("no-item-found", StringPlaceholders.single("item", input));
         }
         return item;
     }

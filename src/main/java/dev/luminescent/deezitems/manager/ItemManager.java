@@ -38,6 +38,7 @@ public class ItemManager extends Manager {
         changed |= setIfNotExists("lore", item.getDefaultLore());
         changed |= setIfNotExists("custom-model-id", item.getDefaultCustomModelID());
         changed |= setIfNotExists("enabled", true);
+        changed |= setIfNotExists("can-craft", true);
 
         if (changed) {
             this.config.save();
@@ -55,7 +56,7 @@ public class ItemManager extends Manager {
         } else {
             defaultMessage += value;
         }
-
+        DeezItems.getInstance().getLogger().info("Setting: " + setting);
         this.config.set(setting, value, ObjectArrays.concat(comments, new String[]{defaultMessage}, String.class));
         return true;
     }
@@ -76,7 +77,7 @@ public class ItemManager extends Manager {
         items.put(item.getID(), item);
         itemIDs.put(item.getItemID(), item);
         DeezItems.getInstance().getLogger().info("Registering item: " + item.getName());
-        item.registerRecipe();
+        item.tryRegisterRecipe();
     }
 
     public List<DeezItem> getItems() {
@@ -110,6 +111,8 @@ public class ItemManager extends Manager {
             if (!newConfig.equals(this.config)) {
                 this.config = newConfig;
             }
+
+            item.tryRegisterRecipe();
         }
     }
 

@@ -16,14 +16,8 @@ public class EventPlayerUseDeezItem implements Listener {
     public void onPlayerUse(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
-        ItemStack offHandItem = player.getInventory().getItemInOffHand();
-
         if (ItemUtils.isDeezItem(mainHandItem)) {
             useItem(event, mainHandItem);
-        }
-
-        if (ItemUtils.isDeezItem(offHandItem)) {
-            useItem(event, offHandItem);
         }
     }
 
@@ -43,7 +37,7 @@ public class EventPlayerUseDeezItem implements Listener {
                     if (deezItem.leftClickAirAction(player, item)) {
                         deezItem.onItemUse(player, item);
                     }
-                } else if (deezItem.shiftleftClickAirAction(player, item)) {
+                } else if (deezItem.shiftLeftClickAirAction(player, item)) {
                     deezItem.onItemUse(player, item);
                 }
             }
@@ -52,7 +46,7 @@ public class EventPlayerUseDeezItem implements Listener {
                     if (deezItem.leftClickBlockAction(player, event, event.getClickedBlock(), item)) {
                         deezItem.onItemUse(player, item);
                     }
-                } else if (deezItem.shiftleftClickBlockAction(player, event, event.getClickedBlock(), item)) {
+                } else if (deezItem.shiftLeftClickBlockAction(player, event, event.getClickedBlock(), item)) {
                     deezItem.onItemUse(player, item);
                 }
             }
@@ -61,7 +55,7 @@ public class EventPlayerUseDeezItem implements Listener {
                     if (deezItem.rightClickAirAction(player, item)) {
                         deezItem.onItemUse(player, item);
                     }
-                } else if (deezItem.shiftrightClickAirAction(player, item)) {
+                } else if (deezItem.shiftRightClickAirAction(player, item)) {
                     deezItem.onItemUse(player, item);
                 }
             }
@@ -70,7 +64,7 @@ public class EventPlayerUseDeezItem implements Listener {
                     if (deezItem.rightClickBlockAction(player, event, event.getClickedBlock(), item)) {
                         deezItem.onItemUse(player, item);
                     }
-                } else if (deezItem.shiftrightClickBlockAction(player, event, event.getClickedBlock(), item)) {
+                } else if (deezItem.shiftRightClickBlockAction(player, event, event.getClickedBlock(), item)) {
                     deezItem.onItemUse(player, item);
                 }
             }
