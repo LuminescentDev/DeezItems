@@ -10,12 +10,10 @@ import java.util.List;
 
 public class LocaleManager extends AbstractLocaleManager {
 
-    private List<String> translationLocales;
-
     public LocaleManager(RosePlugin plugin) {
         super(plugin);
 
-        this.translationLocales = new ArrayList<>();
+        List<String> translationLocales = new ArrayList<>();
     }
 
     @Override

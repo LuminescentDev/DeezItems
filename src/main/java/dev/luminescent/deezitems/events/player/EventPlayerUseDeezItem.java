@@ -14,11 +14,8 @@ public class EventPlayerUseDeezItem implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerUse(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        ItemStack mainHandItem = player.getInventory().getItemInMainHand();
-        if (ItemUtils.isDeezItem(mainHandItem)) {
-            useItem(event, mainHandItem);
-        }
+        ItemStack item = event.getItem();
+        if (ItemUtils.isDeezItem(item)) useItem(event, item);
     }
 
     private void useItem(PlayerInteractEvent event, ItemStack item) {

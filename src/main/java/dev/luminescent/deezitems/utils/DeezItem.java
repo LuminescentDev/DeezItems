@@ -98,7 +98,7 @@ public abstract class DeezItem {
 
     public void onItemUse(Player player, ItemStack item) {
         int itemUses = ItemUtils.getIntFromItem(item, "uses");
-
+        if(player.getGameMode() == GameMode.CREATIVE) return;
         if (item.getAmount() > 1 && itemUses != -1) {
             int remainingAmount = item.getAmount() - 1;
             item.setAmount(1);
@@ -114,9 +114,9 @@ public abstract class DeezItem {
             }
         }
 
-        if (itemUses == 1 && player.getGameMode() != GameMode.CREATIVE) {
+        if (itemUses == 1) {
             destroyItem(item, 1);
-        }else if (itemUses > 0 && player.getGameMode() != GameMode.CREATIVE) {
+        }else if (itemUses > 0) {
             itemUses--;
             ItemUtils.storeIntInItem(item, itemUses, "uses");
             ItemUtils.setItemLore(item, getLore(item));
