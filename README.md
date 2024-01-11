@@ -12,4 +12,4 @@ For info on how to create custom items please look at the [Wiki](https://github.
 ### Server Compatibility
 
 This plugin is compatible with [Spigot](https://www.spigotmc.org/) and any other forks.
-Tested minecraft versions are 1.19+
+Tested minecraft versions are 1.19
