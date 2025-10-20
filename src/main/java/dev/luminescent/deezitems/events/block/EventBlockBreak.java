@@ -1,5 +1,6 @@
 package dev.luminescent.deezitems.events.block;
 
+import dev.luminescent.deezitems.DeezItems;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,7 +22,8 @@ public class EventBlockBreak implements Listener {
     private void useItem(BlockBreakEvent event, ItemStack item) {
         Player player = event.getPlayer();
         DeezItem deezItem = ItemUtils.getDeezItem(item);
-        if (deezItem != null && deezItem.breakBlockAction(player, event, event.getBlock(), item)) {
+        if(deezItem == null || ItemUtils.getIntFromItem(item, "uses") == 0) return;
+        if (deezItem.breakBlockAction(player, event, event.getBlock(), item)) {
             deezItem.onItemUse(player, item);
         }
     }

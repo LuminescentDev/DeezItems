@@ -29,7 +29,7 @@ public abstract class DeezItem {
     private final List<ItemAbility> abilities;
     private final int customModelID;
     public final boolean hasActiveEffect = false;
-    public final boolean stackable = true;
+    public boolean deleteAfterLastUse = true;
 
     public DeezItem(String id, Material material, String name, String rarity, List<String> lore, int uses, List<ItemAbility> abilities, int customModelID) {
         this.ID = id;
@@ -43,6 +43,18 @@ public abstract class DeezItem {
         this.customModelID = customModelID;
     }
 
+    public DeezItem(String id, Material material, String name, String rarity, List<String> lore, int uses, boolean deleteAfterLastUse, List<ItemAbility> abilities, int customModelID) {
+        this.ID = id;
+        this.material = material;
+        this.name = name;
+        this.rarity = rarity;
+        this.lore = lore;
+        this.itemID = ItemUtils.stringToSeed(material.name() + name + rarity);
+        this.uses = uses;
+        this.deleteAfterLastUse = deleteAfterLastUse;
+        this.abilities = abilities;
+        this.customModelID = customModelID;
+    }
 
     public static void destroyItem(ItemStack item, int amount) {
         item.setAmount(Math.max(item.getAmount() - amount, 0));
@@ -64,7 +76,7 @@ public abstract class DeezItem {
         return item;
     }
 
-    private List<String> getLore(ItemStack item) {
+    public List<String> getLore(ItemStack item) {
         LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
         List<String> list = new ArrayList<>();
         int uses = ItemUtils.getIntFromItem(item, "uses");
@@ -81,12 +93,15 @@ public abstract class DeezItem {
 
         list.add("");
 
-        if (uses >= 1) {
-            list.add(localeManager.getLocaleMessage("item-uses-remaining", StringPlaceholders.single("uses", uses)));
+        if (uses != -1) {
+            list.add(localeManager.getLocaleMessage("item-uses-remaining", StringPlaceholders.of("uses", uses)));
             list.add("");
         }
 
-        list.addAll(getLore());
+        if(getItemLore().size() > 0){
+            list.addAll(getItemLore());
+            list.add("");
+        }
 
         list.add(HexUtils.colorify(ItemRarity.getColor(rarity) + "&l" + rarity));
         return list;
@@ -114,7 +129,7 @@ public abstract class DeezItem {
             }
         }
 
-        if (itemUses == 1) {
+        if (itemUses == 1 && this.deleteAfterLastUse) {
             destroyItem(item, 1);
         }else if (itemUses > 0) {
             itemUses--;
@@ -263,7 +278,7 @@ public abstract class DeezItem {
         return itemManager.loadSettings(this).getString("rarity");
     }
 
-    public List<String> getLore() {
+    public List<String> getItemLore() {
         ItemManager itemManager = DeezItems.getInstance().getManager(ItemManager.class);
         return itemManager.loadSettings(this).getStringList("lore");
     }

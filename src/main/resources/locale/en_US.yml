@@ -1,0 +1,53 @@
+# Plugin Message Prefix
+prefix: '&8&l[<g:#ffaaaa:#d96dff>DeezItems&8&l] '
+
+# base command
+base-command-color: '&a'
+base-command-help: '&3/%cmd% help &7- &aFor a list of commands'
+
+# Command Messages
+command-no-permission: 'You do not have permission to use this command.'
+command-unknown: 'Unknown command. Use /deezitems help for help.'
+command-help-description: 'Shows this help info.'
+command-list-description: 'Lists all items.'
+command-give-description: '<player> <item> [amount] - Gives a player an item.'
+command-reload-description: 'Reloads the plugin.'
+command-givematerial-description: 'Gives yourself an item.'
+help-list: '&8&l/deezitems list - Lists all items.'
+help-info: '&8&lUse/deezitems info to get info about the plugin.'
+help-give: '&8&l/deezitems give <item> - Gives yourself an item.'
+help-reload: '&8&l/deezitems reload - Reloads the plugin.'
+
+# List Command
+command-list-none-item: '&eThere are no items currently registered.'
+command-list-none-material: '&eThere are no materials currently registered.'
+command-list-header-item: '&eThere are &b%amount% &eitems currently registered:'
+command-list-header-material: '&eThere are &b%amount% &ematerials currently registered:'
+command-list-item: '%rarityColor%%rarityName%&e - %name%'
+command-list-material: '%rarityColor%%rarityName%&e - %name%'
+
+# Other Messages
+no-permission-item: 'You do not have permission to use this item.'
+reload-success: 'Plugin reloaded successfully.'
+must-be-player: 'You must be a player to use this command.'
+error-occurred: 'An error occurred.'
+cooldown-message: '&c&lYou must wait %time% seconds before using this ability again.'
+
+# GUI Messages
+gui-title-items: '&e&lDeezItems: Items'
+gui-title-materials: '&e&lDeezItems: Materials'
+gui-materials: 'Materials'
+gui-items: 'Items'
+
+# Ability Types (Due to reasons i do not know, the server must be restart for these values to change)
+left-click: 'Left Click'
+right-click: 'Right Click'
+middle-click: 'Middle Click'
+block-break: 'Break Block'
+projectile-hit: 'Projectile Hit'
+
+# Item Messages
+no-item-found: '%item% could not be found.'
+no-material-found: '%material% could not be found.'
+item-given: 'Given %item%.'
+item-uses-remaining: 'Uses remaining: %uses%.'

@@ -98,7 +98,7 @@ public class ItemUtils {
     public static void setGlowing(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.addEnchant(Enchantment.LUCK, 0, true);
+        meta.addEnchant(Enchantment.LURE, 0, true);
         item.setItemMeta(meta);
     }
 

@@ -1,7 +1,6 @@
 package dev.luminescent.deezitems.utils;
 
 import dev.luminescent.deezitems.DeezItems;
-import dev.luminescent.deezitems.manager.LocaleManager;
 import dev.luminescent.deezitems.manager.MaterialManager;
 import dev.rosewood.rosegarden.utils.HexUtils;
 import org.bukkit.Bukkit;
@@ -52,7 +51,6 @@ public class DeezMaterial {
     }
 
     private List<String> getLore(ItemStack item) {
-        LocaleManager localeManager = DeezItems.getInstance().getManager(LocaleManager.class);
         List<String> list = new ArrayList<>();
         if (rarity.equalsIgnoreCase("unfinished")) {
             list.add("Item Unfinished");

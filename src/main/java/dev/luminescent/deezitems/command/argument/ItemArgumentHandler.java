@@ -1,9 +1,10 @@
 package dev.luminescent.deezitems.command.argument;
 
 import dev.rosewood.rosegarden.RosePlugin;
-import dev.rosewood.rosegarden.command.framework.ArgumentParser;
-import dev.rosewood.rosegarden.command.framework.RoseCommandArgumentHandler;
-import dev.rosewood.rosegarden.command.framework.RoseCommandArgumentInfo;
+import dev.rosewood.rosegarden.command.framework.Argument;
+import dev.rosewood.rosegarden.command.framework.ArgumentHandler;
+import dev.rosewood.rosegarden.command.framework.CommandContext;
+import dev.rosewood.rosegarden.command.framework.InputIterator;
 import dev.rosewood.rosegarden.utils.StringPlaceholders;
 import dev.luminescent.deezitems.manager.ItemManager;
 import dev.luminescent.deezitems.utils.DeezItem;
@@ -11,26 +12,27 @@ import dev.luminescent.deezitems.utils.DeezItem;
 import java.util.Collection;
 import java.util.List;
 
-public class ItemArgumentHandler extends RoseCommandArgumentHandler<DeezItem> {
+public class ItemArgumentHandler extends ArgumentHandler<DeezItem>{
+
+    private final RosePlugin rosePlugin;
 
     public ItemArgumentHandler(RosePlugin rosePlugin) {
-        super(rosePlugin, DeezItem.class);
+        super(DeezItem.class);
+        this.rosePlugin = rosePlugin;
     }
 
     @Override
-    protected DeezItem handleInternal(RoseCommandArgumentInfo argumentInfo, ArgumentParser argumentParser) throws HandledArgumentException {
-        String input = argumentParser.next();
+    public DeezItem handle(CommandContext commandContext, Argument argument, InputIterator inputIterator) throws HandledArgumentException {
+        String input = inputIterator.next();
         DeezItem item = this.rosePlugin.getManager(ItemManager.class).getItem(input);
         if (item == null) {
-            throw new HandledArgumentException("no-item-found", StringPlaceholders.single("item", input));
+            throw new HandledArgumentException("no-item-found", StringPlaceholders.of("item", input));
         }
         return item;
     }
 
     @Override
-    protected List<String> suggestInternal(RoseCommandArgumentInfo argumentInfo, ArgumentParser argumentParser) {
-        argumentParser.next();
-
+    public List<String> suggest(CommandContext commandContext, Argument argument, String[] args) {
         Collection<DeezItem> items = this.rosePlugin.getManager(ItemManager.class).getItems();
         if(items.isEmpty()) {
             return List.of("<No item found>");

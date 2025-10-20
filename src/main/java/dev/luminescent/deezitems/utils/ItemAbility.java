@@ -1,7 +1,7 @@
 package dev.luminescent.deezitems.utils;
 
 import dev.luminescent.deezitems.DeezItems;
-import dev.luminescent.deezitems.manager.ConfigurationManager;
+import dev.luminescent.deezitems.manager.Settings;
 import dev.luminescent.deezitems.manager.LocaleManager;
 import dev.rosewood.rosegarden.utils.HexUtils;
 import dev.rosewood.rosegarden.utils.StringPlaceholders;
@@ -59,12 +59,12 @@ public class ItemAbility {
             ItemUtils.storeIntInItem(item, (int) systime, ID);
             return false;
         } else if(sendMessage) {
-            if (ConfigurationManager.Setting.USE_ACTIONBAR.getBoolean()) {
+            if (Settings.USE_ACTIONBAR.get()) {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(HexUtils.colorify(
-                        localeManager.getLocaleMessage("cooldown-message", StringPlaceholders.single("time", (cooldownTime - (int) (systime - abilityCooldown))))
+                        localeManager.getLocaleMessage("cooldown-message", StringPlaceholders.of("time", (cooldownTime - (int) (systime - abilityCooldown))))
                 )));
             } else {
-                localeManager.sendMessage(player, "cooldown-message", StringPlaceholders.single("time", (cooldownTime - (int) (systime - abilityCooldown))));
+                localeManager.sendMessage(player, "cooldown-message", StringPlaceholders.of("time", (cooldownTime - (int) (systime - abilityCooldown))));
             }
         }
         return true;

@@ -1,6 +1,6 @@
 package dev.luminescent.deezitems.events.player;
 
-import dev.luminescent.deezitems.manager.ConfigurationManager;
+import dev.luminescent.deezitems.manager.Settings;
 import dev.luminescent.deezitems.utils.ItemUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +13,7 @@ public class EventPlayerCraft implements Listener {
     public void onPlayerCraft(PrepareItemCraftEvent event) {
         ItemStack[] items = event.getInventory().getMatrix();
 
-        if (ConfigurationManager.Setting.CAN_CRAFT_WITH_ITEMS.getBoolean()) return;
+        if (Settings.CAN_CRAFT_WITH_ITEMS.get()) return;
 
         for (ItemStack itemStack : items) {
             if (itemStack != null && ItemUtils.isDeezItem(itemStack)) {

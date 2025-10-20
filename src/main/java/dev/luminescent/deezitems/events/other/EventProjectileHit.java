@@ -26,7 +26,8 @@ public class EventProjectileHit implements Listener {
     private void useItem(ProjectileHitEvent event, ItemStack item) {
         Player player = (Player) event.getEntity().getShooter();
         DeezItem deezItem = ItemUtils.getDeezItem(item);
-        if (deezItem != null && deezItem.projectileHitAction(player, event, item)) {
+        if (deezItem != null && deezItem.getUses() != 0 && deezItem.projectileHitAction(player, event, item)) {
+            assert player != null;
             deezItem.onItemUse(player, item);
         }
     }

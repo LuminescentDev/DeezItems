@@ -27,7 +27,7 @@ public class EventPlayerUseDeezItem implements Listener {
         }
 
         Action action = event.getAction();
-
+        if(ItemUtils.getIntFromItem(item, "uses") == 0) return;
         switch (action) {
             case LEFT_CLICK_AIR -> {
                 if (!player.isSneaking()) {

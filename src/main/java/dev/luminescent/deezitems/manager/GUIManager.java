@@ -32,12 +32,9 @@ public class GUIManager extends Manager {
         super(rosePlugin);
         DeezItems deezItems = DeezItems.getInstance();
         this.localeManager = deezItems.getManager(LocaleManager.class);
-        ItemManager itemManager = deezItems.getManager(ItemManager.class);
-        MaterialManager materialManager = deezItems.getManager(MaterialManager.class);
     }
 
     public void createGui(Player viewer) {
-        LocaleManager localeManager = rosePlugin.getManager(LocaleManager.class);
         this.gui = Gui.paginated()
                 .title(Component.text(getTitle()))
                 .rows(6)
@@ -105,11 +102,11 @@ public class GUIManager extends Manager {
         if (showToggle == SHOW.MATERIALS) {
             typeSwitchMaterial = Material.IRON_SWORD;
             typeSwitchName = localeManager.getLocaleMessage("gui-materials");
-            typeSwitchModel = ConfigurationManager.Setting.GUI_ITEM_MODELS_SHOW_MATERIALS.getInt();
+            typeSwitchModel = Settings.GUI_ITEM_MODELS_SHOW_MATERIALS.get();
         } else {
             typeSwitchMaterial = Material.IRON_INGOT;
             typeSwitchName = localeManager.getLocaleMessage("gui-items");
-            typeSwitchModel = ConfigurationManager.Setting.GUI_ITEM_MODELS_SHOW_ITEMS.getInt();
+            typeSwitchModel = Settings.GUI_ITEM_MODELS_SHOW_ITEMS.get();
         }
 
         GuiItem typeSwitchItem = ItemBuilder

@@ -15,6 +15,7 @@ import dev.luminescent.deezitems.utils.DeezItem;
 import dev.luminescent.deezitems.utils.ItemRarity;
 import dev.luminescent.deezitems.utils.ItemUtils;
 import dev.rosewood.rosegarden.RosePlugin;
+import dev.rosewood.rosegarden.config.SettingHolder;
 import dev.rosewood.rosegarden.manager.Manager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,7 +30,7 @@ public final class DeezItems extends RosePlugin {
     private int activeEffectTaskId;
 
     public DeezItems() {
-        super(103356, 15738, ConfigurationManager.class, null, LocaleManager.class, CommandManager.class);
+        super(103356, 15738, null, LocaleManager.class, CommandManager.class);
         instance = this;
     }
 
@@ -77,6 +78,37 @@ public final class DeezItems extends RosePlugin {
         itemManager.registerItem(new FemboyStick());
     }
 
+    @Override
+    protected SettingHolder getRoseConfigSettingHolder() {
+        return Settings.INSTANCE;
+    }
+
+    @Override
+    protected String[] getRoseConfigHeader() {
+        return new String[] {
+                " /$$$$$$$                                      /$$$$$$ /$$                                      ",
+                "| $$__  $$                                    |_  $$_/| $$                                      ",
+                "| $$  \\ $$  /$$$$$$   /$$$$$$  /$$$$$$$$        | $$ /$$$$$$    /$$$$$$  /$$$$$$/$$$$   /$$$$$$$",
+                "| $$  | $$ /$$__  $$ /$$__  $$|____ /$$/        | $$|_  $$_/   /$$__  $$| $$_  $$_  $$ /$$_____/",
+                "| $$  | $$| $$$$$$$$| $$$$$$$$   /$$$$/         | $$  | $$    | $$$$$$$$| $$ \\ $$ \\ $$|  $$$$$$ ",
+                "| $$  | $$| $$_____/| $$_____/  /$$__/          | $$  | $$ /$$| $$_____/| $$ | $$ | $$ \\____  $$",
+                "| $$$$$$$/|  $$$$$$$|  $$$$$$$ /$$$$$$$$       /$$$$$$|  $$$$/|  $$$$$$$| $$ | $$ | $$ /$$$$$$$/",
+                "|_______/  \\_______/ \\_______/|________/      |______/ \\___/   \\_______/|__/ |__/ |__/|_______/ ",
+                "",
+                "This is the configuration file for the DeezItems plugin.",
+                "",
+                "You can change the settings here, but you should know that",
+                "the changes will not take effect until the plugin is reloaded or the server is restarted.",
+                "",
+                "To reload the plugin, type /deezitems reload",
+                "",
+                "Due to how rarity's are setup you must restart the server to change the colors",
+                "",
+                "Enjoy the plugin!"
+        };
+    }
+
+    @SuppressWarnings("unused")
     private static void doActiveEffects() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerInventory inventory = player.getInventory();
@@ -108,7 +140,6 @@ public final class DeezItems extends RosePlugin {
             }
         }
     }
-
 
     @Override
     protected List<Class<? extends Manager>> getManagerLoadPriority() {

@@ -41,7 +41,7 @@ public class ItemManager extends Manager {
         changed |= setIfNotExists("can-craft", true);
 
         if (changed) {
-            this.config.save();
+            this.config.save(file);
         }
     }
 
